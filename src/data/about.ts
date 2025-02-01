@@ -1,5 +1,4 @@
-import { Skill, Language, Education, Experience, Certificate } from '@/domain/types/about';
-import { School, Work, Code, Language as LanguageIcon, Terminal, Star, EmojiEvents } from '@mui/icons-material';
+import { Skill, Language, Education, Experience } from '@/domain/types/about';
 
 export const skills: Skill[] = [
   // Backend

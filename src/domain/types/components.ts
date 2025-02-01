@@ -28,17 +28,17 @@ export interface SectionProps {
 
 export interface FilterProps {
   selectedCategory: string;
-  onCategoryChange: (category: string) => void;
+  onCategoryChange: (_category: string) => void;
   categories: string[];
 }
 
 export interface SearchProps {
   value: string;
-  onChange: (value: string) => void;
+  onChange: (_value: string) => void;
   placeholder?: string;
 }
 
 export interface SortProps {
   value: 'az' | 'za' | 'newest' | 'oldest';
-  onChange: (value: 'az' | 'za' | 'newest' | 'oldest') => void;
+  onChange: (_value: 'az' | 'za' | 'newest' | 'oldest') => void;
 } 

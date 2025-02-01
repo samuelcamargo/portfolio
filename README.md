@@ -14,19 +14,13 @@ Este é meu portfólio profissional, desenvolvido com tecnologias modernas para 
 ```
 src/
 ├── app/                    # Rotas e páginas da aplicação
-│   ├── about/             # Página Sobre
-│   ├── projects/          # Página de Projetos
-│   ├── contact/           # Página de Contato
-│   └── layout.tsx         # Layout principal da aplicação
-│
-├── presentation/          # Componentes de apresentação
-│   ├── components/        # Componentes reutilizáveis
-│   │   ├── layout/       # Componentes de layout
-│   │   └── sections/     # Seções das páginas
-│   └── styles/           # Estilos e tema
-│
-└── components/           # Componentes globais
-    └── ThemeRegistry.tsx # Configuração do tema Material UI
+├── domain/                # Tipos e interfaces do domínio
+│   └── types/            # Definições de tipos TypeScript
+├── data/                 # Dados e constantes
+├── hooks/                # Hooks personalizados
+├── utils/                # Funções utilitárias
+├── presentation/         # Componentes de apresentação
+└── components/          # Componentes globais
 ```
 
 ## 📱 Páginas e Funcionalidades
@@ -35,6 +29,9 @@ src/
 - **Sobre**: Experiência profissional, educação, habilidades e certificações
 - **Projetos**: Portfólio de projetos desenvolvidos
 - **Contato**: Formulário de contato e links de redes sociais
+- **Infinite Scroll**: Carregamento dinâmico de conteúdo
+- **Filtros e Ordenação**: Sistema avançado para habilidades e certificações
+- **Validação de Tipos**: Type guards para garantir integridade dos dados
 
 ## 🎨 Design e UI/UX
 
@@ -88,6 +85,10 @@ npm start
 - Prettier para formatação consistente
 - Commits semânticos
 - Clean Architecture nos componentes
+- Type Guards para validação de tipos
+- Padrões de nomenclatura (_prefix para variáveis não utilizadas)
+- Estrutura organizada de tipos e interfaces
+- Hooks personalizados reutilizáveis
 
 ## 🚧 Em Desenvolvimento
 

@@ -20,6 +20,7 @@ export function useInfiniteScroll<T>(
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const currentRef = containerRef.current;
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
@@ -34,13 +35,13 @@ export function useInfiniteScroll<T>(
       }
     );
 
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, [items.length, visibleItems, increment, threshold]);

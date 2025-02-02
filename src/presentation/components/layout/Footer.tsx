@@ -1,29 +1,29 @@
 'use client';
 import * as React from 'react';
-import { Box, Container, Typography, IconButton, Tooltip } from '@mui/material';
+import { Box, Container, Typography, IconButton } from '@mui/material';
 import { GitHub, LinkedIn, Facebook, Instagram } from '@mui/icons-material';
 
 const socialLinks = [
   {
-    name: 'GitHub',
     icon: <GitHub />,
     url: 'https://github.com/samuelcamargo',
+    label: 'GitHub'
   },
   {
-    name: 'LinkedIn',
     icon: <LinkedIn />,
-    url: 'https://www.linkedin.com/in/samuelcamargoti/',
+    url: 'https://www.linkedin.com/in/samuelcamargoti',
+    label: 'LinkedIn'
   },
   {
-    name: 'Facebook',
     icon: <Facebook />,
     url: 'https://www.facebook.com/samuel.camargo.5439',
+    label: 'Facebook'
   },
   {
-    name: 'Instagram',
     icon: <Instagram />,
     url: 'https://www.instagram.com/samuyoh/',
-  },
+    label: 'Instagram'
+  }
 ];
 
 export default function Footer() {
@@ -31,51 +31,50 @@ export default function Footer() {
     <Box
       component="footer"
       sx={{
-        py: 4,
-        px: 2,
-        mt: 'auto',
-        backgroundColor: 'background.paper',
-        borderTop: '1px solid',
-        borderColor: 'divider',
+        width: '100%',
+        py: 3,
+        background: 'transparent',
+        backdropFilter: 'none',
       }}
     >
-      <Container maxWidth="sm">
-        <Typography 
-          variant="body1" 
-          align="center" 
-          color="text.secondary"
-          sx={{ mb: 2 }}
-        >
-          © {new Date().getFullYear()} Samuel Camargo
-        </Typography>
-        <Box 
-          sx={{ 
-            display: 'flex', 
-            justifyContent: 'center', 
+      <Container maxWidth="lg">
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
             gap: 2,
-            '& .MuiIconButton-root': {
-              transition: 'all 0.2s ease-in-out',
-              '&:hover': {
-                transform: 'translateY(-2px)',
-                color: 'primary.main',
-              },
-            },
           }}
         >
-          {socialLinks.map((social) => (
-            <Tooltip key={social.name} title={social.name} arrow>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            align="center"
+          >
+            © 2025 Samuel Camargo
+          </Typography>
+
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            {socialLinks.map((social) => (
               <IconButton
-                color="inherit"
-                component="a"
+                key={social.label}
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                size="large"
+                sx={{
+                  color: 'text.secondary',
+                  transition: 'all 0.2s ease-in-out',
+                  '&:hover': {
+                    color: 'primary.main',
+                    transform: 'translateY(-2px)',
+                  },
+                }}
+                aria-label={social.label}
               >
                 {social.icon}
               </IconButton>
-            </Tooltip>
-          ))}
+            ))}
+          </Box>
         </Box>
       </Container>
     </Box>

@@ -6,27 +6,31 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-icons": "ts-node scripts/generate-icons.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.10",
     "@mui/material": "^5.15.10",
-    "@types/node": "^20.11.19",
     "@types/react": "^18.2.57",
+    "critters": "^0.0.25",
     "date-fns": "^4.1.0",
     "next": "14.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^5.4.0"
+    "react-icons": "^5.4.0",
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
+    "@types/node": "^22.13.0",
     "@types/react-dom": "^18.2.19",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "eslint": "^8.56.0",
     "eslint-config-next": "14.1.0",
+    "ts-node": "^10.9.2",
     "typescript": "~5.5.0"
   }
 }

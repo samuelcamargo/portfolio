@@ -1,29 +1,43 @@
 'use client';
-import * as React from 'react';
-import { Container, Typography, Grid, Card, CardContent, CardActions, Button, Box, useTheme, CardMedia } from '@mui/material';
-import { GitHub, Launch } from '@mui/icons-material';
 
-const projects = [
-  {
-    title: 'Projeto 1',
-    description: 'Descrição do projeto 1. Tecnologias utilizadas e principais funcionalidades.',
-    image: '/project1.jpg',
-    tags: ['React', 'TypeScript', 'Material UI'],
-    github: 'https://github.com/seu-usuario/projeto1',
-    demo: 'https://projeto1.exemplo.com',
-  },
-  {
-    title: 'Projeto 2',
-    description: 'Descrição do projeto 2. Tecnologias utilizadas e principais funcionalidades.',
-    image: '/project2.jpg',
-    tags: ['Next.js', 'Node.js', 'MongoDB'],
-    github: 'https://github.com/seu-usuario/projeto2',
-    demo: 'https://projeto2.exemplo.com',
-  },
-];
+import * as React from 'react';
+import { Container, Typography, Grid, Card, CardContent, CardActions, Button, Box, useTheme, Tooltip } from '@mui/material';
+import { GitHub, Launch, Update } from '@mui/icons-material';
+import { getGithubRepositories } from '@/services/github';
+import { formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+
+interface ProjectData {
+  title: string;
+  description: string;
+  tags: string[];
+  github: string;
+  demo: string;
+  updatedAt: string;
+  lastCommit: {
+    message: string;
+    date: string;
+  };
+}
 
 export default function ProjectsPage() {
   const theme = useTheme();
+  const [projects, setProjects] = React.useState<ProjectData[]>([]);
+
+  React.useEffect(() => {
+    const fetchProjects = async () => {
+      const data = await getGithubRepositories();
+      setProjects(data);
+    };
+    fetchProjects();
+  }, []);
+
+  const formatDate = (date: string) => {
+    return formatDistanceToNow(new Date(date), {
+      addSuffix: true,
+      locale: ptBR
+    });
+  };
 
   return (
     <Box
@@ -81,30 +95,31 @@ export default function ProjectsPage() {
                     flexDirection: 'column',
                     position: 'relative',
                     overflow: 'hidden',
+                    bgcolor: 'background.paper',
                   }}
                 >
-                  <CardMedia
-                    component="img"
-                    height="240"
-                    image={project.image}
-                    alt={project.title}
-                    sx={{
-                      objectFit: 'cover',
-                    }}
-                  />
                   <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                    <Typography
-                      variant="h5"
-                      component="h2"
-                      gutterBottom
-                      sx={{
-                        fontSize: '1.5rem',
-                        fontWeight: 600,
-                        color: 'text.primary',
-                      }}
-                    >
-                      {project.title}
-                    </Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                      <Typography
+                        variant="h5"
+                        component="h2"
+                        gutterBottom
+                        sx={{
+                          fontSize: '1.5rem',
+                          fontWeight: 600,
+                          color: 'text.primary',
+                          mb: 0
+                        }}
+                      >
+                        {project.title}
+                      </Typography>
+                      <Tooltip title={`Último commit: ${project.lastCommit.message}`}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.secondary', fontSize: '0.875rem' }}>
+                          <Update sx={{ fontSize: '1rem' }} />
+                          {formatDate(project.lastCommit.date)}
+                        </Box>
+                      </Tooltip>
+                    </Box>
                     <Typography
                       color="text.secondary"
                       sx={{ mb: 2, lineHeight: 1.6 }}
@@ -112,7 +127,7 @@ export default function ProjectsPage() {
                       {project.description}
                     </Typography>
                     <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}>
-                      {project.tags.map((tag) => (
+                      {project.tags.map((tag: string) => (
                         <Box
                           key={tag}
                           sx={{
@@ -131,16 +146,18 @@ export default function ProjectsPage() {
                     </Box>
                   </CardContent>
                   <CardActions sx={{ p: 3, pt: 0 }}>
-                    <Button
-                      variant="contained"
-                      startIcon={<Launch />}
-                      href={project.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      fullWidth
-                    >
-                      Ver Demo
-                    </Button>
+                    {project.demo && (
+                      <Button
+                        variant="contained"
+                        startIcon={<Launch />}
+                        href={project.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        fullWidth
+                      >
+                        Ver Demo
+                      </Button>
+                    )}
                     <Button
                       variant="outlined"
                       startIcon={<GitHub />}

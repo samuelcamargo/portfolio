@@ -27,13 +27,15 @@ export async function getGithubRepositories(): Promise<ProjectData[]> {
   try {
     // Log inicial
     console.log('=== Iniciando busca de repositórios ===');
+    console.log('Token presente:', !!process.env.NEXT_PUBLIC_GITHUB_TOKEN);
     
     // Configuração do fetch
     const url = 'https://api.github.com/users/samuelcamargo/repos';
     const options = {
       headers: {
         'Accept': 'application/vnd.github.v3+json',
-        'Authorization': `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`
+        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
+        'X-GitHub-Api-Version': '2022-11-28'
       },
       cache: 'no-store' as RequestCache
     };
@@ -51,6 +53,8 @@ export async function getGithubRepositories(): Promise<ProjectData[]> {
     if (!response.ok) {
       const error = await response.text();
       console.error('Erro na API:', error);
+      console.error('Status:', response.status);
+      console.error('Headers:', Object.fromEntries(response.headers.entries()));
       return [];
     }
 
@@ -85,6 +89,10 @@ export async function getGithubRepositories(): Promise<ProjectData[]> {
 
   } catch (error) {
     console.error('Erro ao buscar repositórios:', error);
+    if (error instanceof Error) {
+      console.error('Mensagem de erro:', error.message);
+      console.error('Stack trace:', error.stack);
+    }
     return [];
   }
 } 

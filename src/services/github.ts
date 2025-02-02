@@ -25,60 +25,64 @@ interface ProjectData {
 
 export async function getGithubRepositories(): Promise<ProjectData[]> {
   try {
-    const response = await fetch('https://api.github.com/users/samuelcampos/repos', {
+    // Log inicial
+    console.log('=== Iniciando busca de repositórios ===');
+    
+    // Configuração do fetch
+    const url = 'https://api.github.com/users/samuelcamargo/repos';
+    const options = {
       headers: {
         'Accept': 'application/vnd.github.v3+json',
+        'Authorization': `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`
       },
-      next: { revalidate: 3600 }
+      cache: 'no-store' as RequestCache
+    };
+
+    console.log('Fazendo requisição para:', url);
+    const response = await fetch(url, options);
+    
+    // Log do resultado da requisição
+    console.log('Resposta recebida:', {
+      ok: response.ok,
+      status: response.status,
+      statusText: response.statusText
     });
 
     if (!response.ok) {
-      throw new Error('Falha ao buscar repositórios');
+      const error = await response.text();
+      console.error('Erro na API:', error);
+      return [];
     }
 
-    const repositories: GithubRepository[] = await response.json();
-    const projectsData = await Promise.all(
-      repositories
-        .filter(repo => !repo.name.includes('.github.io'))
-        .map(async (repo) => {
-          const commitsResponse = await fetch(
-            `https://api.github.com/repos/samuelcampos/${repo.name}/commits/${repo.default_branch}`,
-            {
-              headers: {
-                'Accept': 'application/vnd.github.v3+json',
-              },
-              next: { revalidate: 3600 }
-            }
-          );
+    const repos = await response.json();
+    console.log(`Encontrados ${repos.length} repositórios`);
 
-          let lastCommit = {
-            message: '',
-            date: repo.updated_at
-          };
+    // Processamento dos repositórios
+    const projects = await Promise.all(repos.map(async (repo: GithubRepository) => {
+      console.log(`Processando repositório: ${repo.name}`);
+      
+      return {
+        title: repo.name,
+        description: repo.description || 'Descrição não disponível',
+        tags: repo.topics.length > 0 ? repo.topics : [repo.language].filter(Boolean),
+        github: repo.html_url,
+        demo: repo.homepage || '',
+        updatedAt: repo.updated_at,
+        lastCommit: {
+          message: 'Último commit',
+          date: repo.updated_at
+        }
+      };
+    }));
 
-          if (commitsResponse.ok) {
-            const commitData = await commitsResponse.json();
-            lastCommit = {
-              message: commitData.commit.message,
-              date: commitData.commit.author.date
-            };
-          }
-
-          return {
-            title: repo.name,
-            description: repo.description || 'Descrição não disponível',
-            tags: repo.topics.length > 0 ? repo.topics : [repo.language].filter(Boolean),
-            github: repo.html_url,
-            demo: repo.homepage || '',
-            updatedAt: repo.updated_at,
-            lastCommit
-          };
-        })
+    // Ordenação e retorno
+    const sortedProjects = projects.sort((a, b) => 
+      new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
     );
 
-    return projectsData.sort((a, b) => 
-      new Date(b.lastCommit.date).getTime() - new Date(a.lastCommit.date).getTime()
-    );
+    console.log('=== Busca finalizada com sucesso ===');
+    return sortedProjects;
+
   } catch (error) {
     console.error('Erro ao buscar repositórios:', error);
     return [];

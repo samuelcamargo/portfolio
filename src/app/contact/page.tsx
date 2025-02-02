@@ -2,7 +2,6 @@
 import * as React from 'react';
 import { Container, Typography, Box, TextField, Button, Paper, Grid, IconButton, Tooltip } from '@mui/material';
 import { Send, Phone, Email, LocationOn, LinkedIn, GitHub, Facebook, Instagram } from '@mui/icons-material';
-import type { ContactForm } from '@/domain/types';
 
 const contactInfo = [
   {
@@ -46,10 +45,10 @@ const socialLinks = [
 ];
 
 export default function ContactPage() {
-  const [formData, setFormData] = React.useState<ContactForm>({
+  const [formData, setFormData] = React.useState({
     name: '',
     email: '',
-    message: '',
+    message: ''
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -61,7 +60,7 @@ export default function ContactPage() {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }));
   };
 

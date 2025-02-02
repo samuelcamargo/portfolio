@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Container, Typography, Grid, Card, CardContent, CardActions, Button, Box, useTheme, Tooltip } from '@mui/material';
+import { Container, Typography, Grid, Card, CardContent, CardActions, Button, Box, useTheme, Tooltip, CircularProgress, Alert } from '@mui/material';
 import { GitHub, Launch, Update } from '@mui/icons-material';
 import { getGithubRepositories } from '@/services/github';
 import { formatDistanceToNow } from 'date-fns';
@@ -23,13 +23,33 @@ interface ProjectData {
 export default function ProjectsPage() {
   const theme = useTheme();
   const [projects, setProjects] = React.useState<ProjectData[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    const fetchProjects = async () => {
-      const data = await getGithubRepositories();
-      setProjects(data);
-    };
-    fetchProjects();
+    async function loadProjects() {
+      try {
+        console.log('Iniciando carregamento dos projetos...');
+        setLoading(true);
+        setError(null);
+        
+        const data = await getGithubRepositories();
+        console.log('Dados recebidos:', data);
+        
+        if (data.length === 0) {
+          setError('Nenhum projeto encontrado. Por favor, verifique sua conexão e tente novamente.');
+        } else {
+          setProjects(data);
+        }
+      } catch (err) {
+        console.error('Erro ao carregar projetos:', err);
+        setError('Ocorreu um erro ao carregar os projetos. Por favor, tente novamente mais tarde.');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadProjects();
   }, []);
 
   const formatDate = (date: string) => {
@@ -44,6 +64,7 @@ export default function ProjectsPage() {
       sx={{
         bgcolor: 'background.default',
         position: 'relative',
+        minHeight: '100vh',
         '&::before': {
           content: '""',
           position: 'absolute',
@@ -85,100 +106,140 @@ export default function ProjectsPage() {
           >
             Uma seleção dos meus projetos mais recentes e relevantes
           </Typography>
-          <Grid container spacing={4}>
-            {projects.map((project, index) => (
-              <Grid item xs={12} sm={6} key={index}>
-                <Card
-                  sx={{
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    bgcolor: 'background.paper',
-                  }}
-                >
-                  <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                      <Typography
-                        variant="h5"
-                        component="h2"
-                        gutterBottom
-                        sx={{
-                          fontSize: '1.5rem',
-                          fontWeight: 600,
-                          color: 'text.primary',
-                          mb: 0
-                        }}
-                      >
-                        {project.title}
-                      </Typography>
-                      <Tooltip title={`Último commit: ${project.lastCommit.message}`}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.secondary', fontSize: '0.875rem' }}>
-                          <Update sx={{ fontSize: '1rem' }} />
-                          {formatDate(project.lastCommit.date)}
-                        </Box>
-                      </Tooltip>
-                    </Box>
-                    <Typography
-                      color="text.secondary"
-                      sx={{ mb: 2, lineHeight: 1.6 }}
-                    >
-                      {project.description}
-                    </Typography>
-                    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}>
-                      {project.tags.map((tag: string) => (
-                        <Box
-                          key={tag}
+
+          {loading && (
+            <Box sx={{ 
+              display: 'flex', 
+              flexDirection: 'column',
+              alignItems: 'center', 
+              gap: 2,
+              minHeight: '200px' 
+            }}>
+              <CircularProgress size={60} />
+              <Typography color="text.secondary">
+                Carregando projetos...
+              </Typography>
+            </Box>
+          )}
+
+          {error && (
+            <Alert 
+              severity="error"
+              sx={{ 
+                maxWidth: '600px',
+                mx: 'auto',
+                display: 'flex',
+                alignItems: 'center',
+                '& .MuiAlert-icon': {
+                  fontSize: '2rem'
+                }
+              }}
+            >
+              {error}
+            </Alert>
+          )}
+
+          {!loading && !error && projects.length > 0 && (
+            <Grid container spacing={4}>
+              {projects.map((project, index) => (
+                <Grid item xs={12} sm={6} key={index}>
+                  <Card
+                    sx={{
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      bgcolor: 'background.paper',
+                      transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+                      '&:hover': {
+                        transform: 'translateY(-4px)',
+                        boxShadow: theme.shadows[8],
+                      },
+                    }}
+                  >
+                    <CardContent sx={{ flexGrow: 1, p: 3 }}>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                        <Typography
+                          variant="h5"
+                          component="h2"
+                          gutterBottom
                           sx={{
-                            px: 2,
-                            py: 0.5,
-                            borderRadius: '50px',
-                            backgroundColor: 'primary.main',
-                            color: 'white',
-                            fontSize: '0.75rem',
-                            fontWeight: 500,
+                            fontSize: '1.5rem',
+                            fontWeight: 600,
+                            color: 'text.primary',
+                            mb: 0
                           }}
                         >
-                          {tag}
-                        </Box>
-                      ))}
-                    </Box>
-                  </CardContent>
-                  <CardActions sx={{ p: 3, pt: 0 }}>
-                    {project.demo && (
+                          {project.title}
+                        </Typography>
+                        <Tooltip title={`Última atualização: ${formatDate(project.updatedAt)}`}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.secondary', fontSize: '0.875rem' }}>
+                            <Update sx={{ fontSize: '1rem' }} />
+                            {formatDate(project.updatedAt)}
+                          </Box>
+                        </Tooltip>
+                      </Box>
+                      <Typography
+                        color="text.secondary"
+                        sx={{ mb: 2, lineHeight: 1.6 }}
+                      >
+                        {project.description}
+                      </Typography>
+                      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}>
+                        {project.tags.map((tag: string) => (
+                          <Box
+                            key={tag}
+                            sx={{
+                              px: 2,
+                              py: 0.5,
+                              borderRadius: '50px',
+                              backgroundColor: 'primary.main',
+                              color: 'white',
+                              fontSize: '0.75rem',
+                              fontWeight: 500,
+                            }}
+                          >
+                            {tag}
+                          </Box>
+                        ))}
+                      </Box>
+                    </CardContent>
+                    <CardActions sx={{ p: 3, pt: 0 }}>
+                      {project.demo && (
+                        <Button
+                          variant="contained"
+                          startIcon={<Launch />}
+                          href={project.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          fullWidth
+                        >
+                          Ver Demo
+                        </Button>
+                      )}
                       <Button
-                        variant="contained"
-                        startIcon={<Launch />}
-                        href={project.demo}
+                        variant="outlined"
+                        startIcon={<GitHub />}
+                        href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
                         fullWidth
-                      >
-                        Ver Demo
-                      </Button>
-                    )}
-                    <Button
-                      variant="outlined"
-                      startIcon={<GitHub />}
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      fullWidth
-                      sx={{
-                        borderWidth: 2,
-                        '&:hover': {
+                        sx={{
                           borderWidth: 2,
-                        },
-                      }}
-                    >
-                      GitHub
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+                          '&:hover': {
+                            borderWidth: 2,
+                          },
+                        }}
+                      >
+                        GitHub
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          )}
         </Box>
       </Container>
     </Box>

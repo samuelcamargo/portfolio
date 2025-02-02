@@ -1,7 +1,8 @@
 'use client';
 import * as React from 'react';
 import { Box, Typography, Button, Container, useTheme } from '@mui/material';
-import { GitHub, Launch } from '@mui/icons-material';
+import { Launch, GitHub } from '@mui/icons-material';
+import { SiPhp, SiLaravel, SiNodedotjs, SiTypescript, SiReact, SiNextdotjs, SiDocker, SiMysql } from 'react-icons/si';
 
 export default function Hero() {
   const theme = useTheme();
@@ -109,6 +110,38 @@ export default function Hero() {
             >
               GitHub
             </Button>
+          </Box>
+          {/* Tech Stack Icons */}
+          <Box
+            sx={{
+              mt: 6,
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 4,
+              justifyContent: 'center',
+              alignItems: 'center',
+              '& svg': {
+                width: { xs: 28, md: 32 },
+                height: { xs: 28, md: 32 },
+                transition: 'all 0.3s ease',
+                opacity: 0.7,
+                filter: 'brightness(0) invert(1)',
+                '&:hover': {
+                  transform: 'translateY(-5px)',
+                  opacity: 1,
+                  filter: 'none',
+                }
+              }
+            }}
+          >
+            <Box component={SiPhp} sx={{ '&:hover': { color: '#777BB4' } }} />
+            <Box component={SiLaravel} sx={{ '&:hover': { color: '#FF2D20' } }} />
+            <Box component={SiNodedotjs} sx={{ '&:hover': { color: '#339933' } }} />
+            <Box component={SiTypescript} sx={{ '&:hover': { color: '#F7DF1E' } }} />
+            <Box component={SiReact} sx={{ '&:hover': { color: '#61DAFB' } }} />
+            <Box component={SiNextdotjs} sx={{ '&:hover': { color: '#FFFFFF' } }} />
+            <Box component={SiDocker} sx={{ '&:hover': { color: '#2496ED' } }} />
+            <Box component={SiMysql} sx={{ '&:hover': { color: '#4479A1' } }} />
           </Box>
         </Box>
       </Container>

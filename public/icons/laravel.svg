@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <path fill="#FF2D20" d="M64 20L20 45v38l44 25 44-25V45L64 20zm0 8l35 20v30l-35 20-35-20V48l35-20z"/>
+  <path fill="#FF2D20" d="M64 36L35 52v24l29 16 29-16V52L64 36zm0 8l20 11v14l-20 11-20-11V55l20-11z"/>
+</svg> 

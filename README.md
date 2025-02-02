@@ -1,95 +1,130 @@
-# Portfólio Profissional
+# Portfólio - Samuel Camargo
 
-Meu portfólio profissional desenvolvido com tecnologias modernas, apresentando minha experiência, projetos e habilidades técnicas de forma dinâmica e integrada com GitHub.
+## 🚀 Sobre o Projeto
 
-## 🚀 Tecnologias Utilizadas
+Este é meu portfólio pessoal, desenvolvido com tecnologias modernas para apresentar meus projetos e habilidades como desenvolvedor Full Stack. O site foi construído com foco em performance, acessibilidade e design responsivo.
 
-- **Next.js 14**: Framework React com App Router e Server Components
-- **TypeScript**: Tipagem estática para maior segurança
-- **Material UI**: Sistema de design moderno e responsivo
-- **GitHub API**: Integração dinâmica com repositórios
-- **TailwindCSS**: Utilitários CSS para estilização flexível
+## 🛠️ Tecnologias Utilizadas
 
-## 🏗️ Estrutura do Projeto
+- **Next.js 14** - Framework React com SSR e otimizações de performance
+- **React** - Biblioteca para construção de interfaces
+- **TypeScript** - Adiciona tipagem estática ao JavaScript
+- **Material-UI** - Framework de design para componentes React
+- **React Icons** - Biblioteca de ícones
+- **Node.js** - Ambiente de execução JavaScript
 
+## 📦 Dependências e Bibliotecas
+
+### Core
+```json
+{
+  "next": "^14.1.0",
+  "react": "^18.2.0",
+  "react-dom": "^18.2.0",
+  "typescript": "^5.3.3"
+}
 ```
-src/
-├── app/                 # Rotas e páginas da aplicação
-├── services/           # Serviços externos (GitHub, etc)
-├── components/         # Componentes reutilizáveis
-└── styles/            # Estilos globais e temas
+
+### UI e Estilização
+```json
+{
+  "@mui/material": "^5.15.10",
+  "@mui/icons-material": "^5.15.10",
+  "@emotion/react": "^11.11.3",
+  "@emotion/styled": "^11.11.0",
+  "react-icons": "^5.0.1"
+}
 ```
 
-## 📱 Funcionalidades
+### Desenvolvimento
+```json
+{
+  "@types/node": "^20.11.17",
+  "@types/react": "^18.2.55",
+  "@types/react-dom": "^18.2.19",
+  "eslint": "^8.56.0",
+  "eslint-config-next": "^14.1.0"
+}
+```
 
-- **Sobre**: Experiência profissional, educação e habilidades
-- **Projetos**: 
-  - Integração automática com GitHub
-  - Listagem dinâmica de repositórios
-  - Filtragem por tecnologias
-  - Links diretos para demo e código
-- **Contato**: Links para redes profissionais
-
-## 🎨 Design e UI/UX
+## ✨ Características
 
 - Design responsivo e moderno
-- Tema escuro otimizado
+- Tema escuro
 - Animações suaves
-- Cards interativos
-- Gradientes e efeitos visuais
-- Tipografia otimizada
+- Otimizado para SEO
+- Performance otimizada
+- Interface intuitiva
 
-## ⚙️ Como Rodar
+## 🚦 Como Executar
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/samuelcampos/portfolio.git
+git clone https://github.com/samuelcamargo/portfolio.git
 ```
 
 2. Instale as dependências:
 ```bash
 npm install
+# ou
+yarn install
 ```
 
-3. Rode em desenvolvimento:
+3. Execute o servidor de desenvolvimento:
 ```bash
 npm run dev
+# ou
+yarn dev
 ```
 
-4. Build de produção:
-```bash
-npm run build
-npm start
+4. Acesse `http://localhost:3000` no seu navegador
+
+## 🏗️ Estrutura do Projeto
+
+```
+portfolio/
+├── public/          # Arquivos estáticos
+├── src/
+│   ├── app/         # Rotas e páginas
+│   ├── presentation/# Componentes da interface
+│   ├── domain/      # Regras de negócio
+│   └── data/        # Camada de dados
+└── package.json
 ```
 
-## 📦 Principais Dependências
+## 📱 Responsividade
 
-- Next.js: ^14.1.0
-- React: ^18.2.0
-- Material UI: ^5.15.10
-- TypeScript: ~5.5.0
+O site é totalmente responsivo e se adapta aos seguintes breakpoints:
+- Mobile: < 600px
+- Tablet: 600px - 960px
+- Desktop: > 960px
 
-## 🔍 Padrões e Boas Práticas
+## 🎨 Temas e Estilização
 
-- Código limpo e organizado
-- Componentes reutilizáveis
-- Tipagem forte com TypeScript
-- Integração contínua com GitHub
-- SEO otimizado
-- Performance otimizada
+- Tema escuro moderno
+- Gradientes sutis
+- Animações suaves
+- Paleta de cores consistente
 
-## 🚧 Próximos Passos
+## 🔧 Scripts Disponíveis
 
-- [ ] Modo claro/escuro
-- [ ] Filtros avançados para projetos
-- [ ] Estatísticas do GitHub
-- [ ] Internacionalização
-- [ ] Testes automatizados
+- `npm run dev` - Inicia o servidor de desenvolvimento
+- `npm run build` - Cria a build de produção
+- `npm run start` - Inicia o servidor de produção
+- `npm run lint` - Executa o linter
+- `npm run test` - Executa os testes
 
-## 📄 Licença
+## 📝 Licença
 
-MIT License - Veja [LICENSE](LICENSE) para mais detalhes.
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
----
+## 👤 Autor
 
-Desenvolvido por Samuel Camargo 👨‍💻
+**Samuel Camargo**
+
+* Github: [@samuelcamargo](https://github.com/samuelcamargo)
+* LinkedIn: [@samuelcamargo](https://linkedin.com/in/samuelcamargo)
+
+## 🤝 Contribuições
+
+Contribuições, issues e pedidos de features são bem-vindos!

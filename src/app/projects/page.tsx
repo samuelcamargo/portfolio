@@ -104,8 +104,9 @@ export default function ProjectsPage() {
               mb: { xs: 6, md: 8 },
             }}
           >
-            Uma seleção dos meus projetos mais recentes e relevantes
+            Uma seleção dos meus projetos mais recentes e relevantes integrado ao meu github
           </Typography>
+
 
           {loading && (
             <Box sx={{ 

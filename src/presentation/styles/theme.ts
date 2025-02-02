@@ -24,31 +24,68 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Inter", system-ui, -apple-system, sans-serif',
     h1: {
+      fontFamily: '"Space Grotesk", sans-serif',
       fontSize: '3.5rem',
       fontWeight: 700,
       letterSpacing: '-0.02em',
       lineHeight: 1.2,
     },
     h2: {
+      fontFamily: '"Space Grotesk", sans-serif',
       fontSize: '2.25rem',
       fontWeight: 600,
       letterSpacing: '-0.01em',
     },
     h3: {
+      fontFamily: '"Space Grotesk", sans-serif',
       fontSize: '1.875rem',
       fontWeight: 600,
       letterSpacing: '-0.01em',
     },
+    h4: {
+      fontFamily: '"Space Grotesk", sans-serif',
+      fontSize: '1.5rem',
+      fontWeight: 600,
+      letterSpacing: '-0.01em',
+    },
+    h5: {
+      fontFamily: '"Space Grotesk", sans-serif',
+      fontSize: '1.25rem',
+      fontWeight: 600,
+    },
+    h6: {
+      fontFamily: '"Space Grotesk", sans-serif',
+      fontSize: '1.125rem',
+      fontWeight: 600,
+    },
     body1: {
       fontSize: '1rem',
       lineHeight: 1.7,
+      letterSpacing: '-0.01em',
+    },
+    body2: {
+      fontSize: '0.875rem',
+      lineHeight: 1.7,
+      letterSpacing: '-0.01em',
     },
     button: {
+      fontFamily: '"Space Grotesk", sans-serif',
       textTransform: 'none',
       fontWeight: 500,
       fontSize: '0.9375rem',
+      letterSpacing: '-0.01em',
+    },
+    subtitle1: {
+      fontSize: '1rem',
+      fontWeight: 500,
+      letterSpacing: '-0.01em',
+    },
+    subtitle2: {
+      fontSize: '0.875rem',
+      fontWeight: 500,
+      letterSpacing: '-0.01em',
     },
   },
   shape: {
@@ -60,6 +97,22 @@ const theme = createTheme({
         root: {
           backgroundColor: '#0F172A',
           backgroundImage: 'none',
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          '&.logo': {
+            fontFamily: '"Clash Display", sans-serif',
+            fontWeight: 700,
+            fontSize: '1.5rem',
+            letterSpacing: '-0.02em',
+            background: 'linear-gradient(135deg, #F8FAFC 0%, #94A3B8 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            textShadow: '0 2px 10px rgba(124, 58, 237, 0.2)',
+          },
         },
       },
     },

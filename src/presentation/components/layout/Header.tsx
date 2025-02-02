@@ -113,10 +113,25 @@ export default function Header() {
         <Typography 
           variant="h6" 
           component="div" 
+          className="logo"
           sx={{ 
             flexGrow: 1,
             fontSize: { xs: '1.2rem', sm: '1.5rem' },
-            fontWeight: 'bold',
+            fontWeight: 700,
+            letterSpacing: '-0.02em',
+            '& a': {
+              background: 'linear-gradient(135deg, #F8FAFC 0%, #94A3B8 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              textShadow: '0 2px 10px rgba(124, 58, 237, 0.2)',
+              transition: 'all 0.3s ease-in-out',
+              '&:hover': {
+                background: 'linear-gradient(135deg, #F8FAFC 30%, #7C3AED 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                textShadow: '0 4px 12px rgba(124, 58, 237, 0.4)',
+              }
+            }
           }}
         >
           <StyledLink href="/">

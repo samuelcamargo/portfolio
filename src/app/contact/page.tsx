@@ -1,219 +1,310 @@
 'use client';
+
 import * as React from 'react';
-import { Container, Typography, Box, TextField, Button, Paper, Grid, IconButton, Tooltip } from '@mui/material';
-import { Send, Phone, Email, LocationOn, LinkedIn, GitHub, Facebook, Instagram } from '@mui/icons-material';
-
-const contactInfo = [
-  {
-    icon: <LocationOn />,
-    label: 'Localização',
-    value: 'Barueri - São Paulo - BR'
-  },
-  {
-    icon: <Phone />,
-    label: 'Telefone',
-    value: '+55 11 91481-0664'
-  },
-  {
-    icon: <Email />,
-    label: 'Email',
-    value: 'samuelcamargo1@gmail.com'
-  }
-];
-
-const socialLinks = [
-  {
-    name: 'LinkedIn',
-    icon: <LinkedIn />,
-    url: 'https://www.linkedin.com/in/samuelcamargoti/'
-  },
-  {
-    name: 'GitHub',
-    icon: <GitHub />,
-    url: 'https://github.com/samuelcamargo'
-  },
-  {
-    name: 'Facebook',
-    icon: <Facebook />,
-    url: 'https://www.facebook.com/samuel.camargo.5439'
-  },
-  {
-    name: 'Instagram',
-    icon: <Instagram />,
-    url: 'https://www.instagram.com/samuyoh/'
-  }
-];
+import { Container, Typography, Box, useTheme, Paper, Grid, Divider } from '@mui/material';
+import { Email, LinkedIn, LocationOn, GitHub, Facebook, Instagram, WhatsApp } from '@mui/icons-material';
 
 export default function ContactPage() {
-  const [formData, setFormData] = React.useState({
-    name: '',
-    email: '',
-    message: ''
-  });
+  const theme = useTheme();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Form data:', formData);
-  };
+  const mainContacts = [
+    {
+      icon: <LocationOn />,
+      title: 'Localização',
+      content: 'Barueri - São Paulo - BR',
+      color: theme.palette.primary.main
+    },
+    {
+      icon: <WhatsApp />,
+      title: 'WhatsApp',
+      content: '+55 (11) 91481-0664',
+      href: 'https://wa.me/5511914810664',
+      color: '#25D366' // Cor oficial do WhatsApp
+    },
+    {
+      icon: <Email />,
+      title: 'E-mail',
+      content: 'samuelcamargo1@gmail.com',
+      href: 'mailto:samuelcamargo1@gmail.com',
+      color: '#EA4335' // Cor do Gmail
+    }
+  ];
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+  const socialLinks = [
+    {
+      icon: <LinkedIn />,
+      title: 'LinkedIn',
+      content: '/samuelcamargoti',
+      href: 'https://www.linkedin.com/in/samuelcamargoti',
+      color: '#0A66C2'
+    },
+    {
+      icon: <GitHub />,
+      title: 'GitHub',
+      content: '/samuelcamargo',
+      href: 'https://github.com/samuelcamargo',
+      color: '#6e40c9'
+    },
+    {
+      icon: <Facebook />,
+      title: 'Facebook',
+      content: '/samuel.camargo.5439',
+      href: 'https://www.facebook.com/samuel.camargo.5439',
+      color: '#1877F2'
+    },
+    {
+      icon: <Instagram />,
+      title: 'Instagram',
+      content: '@samuyoh',
+      href: 'https://www.instagram.com/samuyoh/',
+      color: '#E4405F'
+    }
+  ];
 
   return (
-    <Container maxWidth="lg">
-      <Box sx={{ py: { xs: 6, md: 10 } }}>
-        <Typography
-          variant="h1"
-          sx={{
-            fontSize: { xs: '2.5rem', md: '3.5rem' },
-            textAlign: 'center',
-            mb: 2,
-            background: 'linear-gradient(135deg, #9F67FF 0%, #7C3AED 100%)',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            color: 'transparent',
-          }}
-        >
-          Contato
-        </Typography>
-        <Typography
-          variant="h2"
-          sx={{
-            fontSize: { xs: '1.1rem', md: '1.25rem' },
-            textAlign: 'center',
-            color: 'text.secondary',
-            maxWidth: '600px',
-            mx: 'auto',
-            mb: { xs: 6, md: 8 },
-          }}
-        >
-          Vamos conversar? Entre em contato comigo através de qualquer um dos canais abaixo
-        </Typography>
+    <Box
+      sx={{
+        bgcolor: 'background.default',
+        position: 'relative',
+        minHeight: '100vh',
+        pb: 8,
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '50%',
+          background: `linear-gradient(180deg, ${theme.palette.primary.main}10 0%, transparent 100%)`,
+          zIndex: 0,
+        },
+      }}
+    >
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+        <Box sx={{ py: { xs: 6, md: 10 } }}>
+          <Typography
+            variant="h1"
+            sx={{
+              fontSize: { xs: '2.5rem', md: '3.5rem' },
+              textAlign: 'center',
+              mb: 2,
+              background: `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              color: 'transparent',
+            }}
+          >
+            Contato
+          </Typography>
+          <Typography
+            variant="h2"
+            sx={{
+              fontSize: { xs: '1.1rem', md: '1.25rem' },
+              textAlign: 'center',
+              color: 'text.secondary',
+              maxWidth: '600px',
+              mx: 'auto',
+              mb: { xs: 6, md: 8 },
+            }}
+          >
+            Vamos conversar? Escolha o canal que preferir
+          </Typography>
 
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={5}>
-            <Paper elevation={0} sx={{ p: 4, height: '100%', bgcolor: 'background.paper' }}>
-              <Typography variant="h5" gutterBottom color="primary" sx={{ mb: 4 }}>
-                Informações de Contato
-              </Typography>
-              
-              <Box sx={{ mb: 4 }}>
-                {contactInfo.map((info, index) => (
-                  <Box
-                    key={index}
+          <Box sx={{ maxWidth: '1000px', mx: 'auto' }}>
+            <Typography
+              variant="h5"
+              sx={{
+                mb: 3,
+                fontWeight: 600,
+                textAlign: 'center',
+                color: 'text.primary',
+              }}
+            >
+              Informações de Contato
+            </Typography>
+            <Grid container spacing={3} mb={6}>
+              {mainContacts.map((info, index) => (
+                <Grid item xs={12} sm={4} key={index}>
+                  <Paper
+                    component={info.href ? 'a' : 'div'}
+                    href={info.href}
+                    target={info.href?.startsWith('http') ? '_blank' : undefined}
+                    rel={info.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
                     sx={{
+                      p: 3,
+                      height: '100%',
                       display: 'flex',
+                      flexDirection: 'column',
                       alignItems: 'center',
-                      mb: 3,
                       gap: 2,
+                      bgcolor: 'background.paper',
+                      borderRadius: 2,
+                      transition: 'all 0.3s ease',
+                      textDecoration: 'none',
+                      cursor: info.href ? 'pointer' : 'default',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      '&::before': info.href ? {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: 3,
+                        bgcolor: info.color,
+                      } : {},
+                      '&:hover': info.href ? {
+                        transform: 'translateY(-4px)',
+                        boxShadow: theme.shadows[8],
+                        '& .MuiSvgIcon-root': {
+                          transform: 'scale(1.1)',
+                          color: info.color,
+                        }
+                      } : {},
                     }}
                   >
                     <Box
                       sx={{
-                        bgcolor: 'primary.main',
-                        borderRadius: '50%',
-                        p: 1,
                         display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: 50,
+                        height: 50,
+                        borderRadius: '50%',
+                        bgcolor: info.href ? `${info.color}15` : 'primary.main',
+                        color: info.href ? info.color : 'white',
+                        '& .MuiSvgIcon-root': {
+                          fontSize: '1.75rem',
+                          transition: 'all 0.3s ease',
+                        }
                       }}
                     >
                       {info.icon}
                     </Box>
-                    <Box>
-                      <Typography variant="subtitle2" color="text.secondary">
-                        {info.label}
-                      </Typography>
-                      <Typography>{info.value}</Typography>
-                    </Box>
-                  </Box>
-                ))}
-              </Box>
-
-              <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
-                Redes Sociais
-              </Typography>
-              <Box sx={{ display: 'flex', gap: 2 }}>
-                {socialLinks.map((social) => (
-                  <Tooltip key={social.name} title={social.name} arrow>
-                    <IconButton
-                      color="primary"
-                      component="a"
-                      href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <Typography
+                      variant="h6"
                       sx={{
-                        '&:hover': {
-                          transform: 'translateY(-2px)',
-                        },
+                        fontSize: '1.1rem',
+                        fontWeight: 600,
+                        textAlign: 'center',
+                        color: 'text.primary',
+                      }}
+                    >
+                      {info.title}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        textAlign: 'center',
+                        color: 'text.secondary',
+                        fontSize: '0.95rem',
+                      }}
+                    >
+                      {info.content}
+                    </Typography>
+                  </Paper>
+                </Grid>
+              ))}
+            </Grid>
+
+            <Divider sx={{ my: 6 }} />
+
+            <Typography
+              variant="h5"
+              sx={{
+                mb: 3,
+                fontWeight: 600,
+                textAlign: 'center',
+                color: 'text.primary',
+              }}
+            >
+              Redes Sociais
+            </Typography>
+            <Grid container spacing={3}>
+              {socialLinks.map((social, index) => (
+                <Grid item xs={12} sm={6} md={3} key={index}>
+                  <Paper
+                    component="a"
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{
+                      p: 3,
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: 2,
+                      bgcolor: 'background.paper',
+                      borderRadius: 2,
+                      transition: 'all 0.3s ease',
+                      textDecoration: 'none',
+                      cursor: 'pointer',
+                      overflow: 'hidden',
+                      position: 'relative',
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: 3,
+                        bgcolor: social.color,
+                      },
+                      '&:hover': {
+                        transform: 'translateY(-4px)',
+                        boxShadow: theme.shadows[8],
+                        '& .MuiSvgIcon-root': {
+                          transform: 'scale(1.1)',
+                          color: social.color,
+                        }
+                      },
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: 50,
+                        height: 50,
+                        borderRadius: '50%',
+                        bgcolor: `${social.color}15`,
+                        color: social.color,
+                        '& .MuiSvgIcon-root': {
+                          fontSize: '1.75rem',
+                          transition: 'all 0.3s ease',
+                        }
                       }}
                     >
                       {social.icon}
-                    </IconButton>
-                  </Tooltip>
-                ))}
-              </Box>
-            </Paper>
-          </Grid>
-
-          <Grid item xs={12} md={7}>
-            <Paper elevation={0} sx={{ p: 4, bgcolor: 'background.paper' }}>
-              <Typography variant="h5" gutterBottom color="primary" sx={{ mb: 4 }}>
-                Envie uma Mensagem
-              </Typography>
-              <Box
-                component="form"
-                onSubmit={handleSubmit}
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 3,
-                }}
-              >
-                <TextField
-                  required
-                  fullWidth
-                  label="Nome"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                />
-                <TextField
-                  required
-                  fullWidth
-                  label="Email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-                <TextField
-                  required
-                  fullWidth
-                  label="Mensagem"
-                  name="message"
-                  multiline
-                  rows={6}
-                  value={formData.message}
-                  onChange={handleChange}
-                />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  size="large"
-                  endIcon={<Send />}
-                  sx={{ mt: 2 }}
-                >
-                  Enviar Mensagem
-                </Button>
-              </Box>
-            </Paper>
-          </Grid>
-        </Grid>
-      </Box>
-    </Container>
+                    </Box>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontSize: '1.1rem',
+                        fontWeight: 600,
+                        textAlign: 'center',
+                        color: 'text.primary',
+                      }}
+                    >
+                      {social.title}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        textAlign: 'center',
+                        color: 'text.secondary',
+                        fontSize: '0.95rem',
+                      }}
+                    >
+                      {social.content}
+                    </Typography>
+                  </Paper>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+    </Box>
   );
 } 

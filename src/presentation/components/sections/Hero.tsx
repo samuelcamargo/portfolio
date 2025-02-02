@@ -70,8 +70,7 @@ export default function Hero() {
               lineHeight: 1.6,
             }}
           >
-            Full Stack Tech Lead com mais de 15 anos de experiência em desenvolvimento de software.
-            Especializado em PHP, Node.js, TypeScript e arquitetura de sistemas.
+            Aventureiro tech: desbravando novos horizontes no desenvolvimento Full Stack
           </Typography>
           <Box
             sx={{

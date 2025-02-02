@@ -915,10 +915,7 @@ export default function AboutPage() {
                 </Typography>
               </Box>
               <Typography sx={{ fontSize: '1rem', lineHeight: 1.7, color: 'text.secondary' }}>
-                Sou um profissional apaixonado por tecnologia com mais de 15 anos de experiência, especializado em desenvolvimento de software
-                e arquitetura de sistemas. Minha expertise abrange desde o desenvolvimento backend com PHP, Laravel, Node.js e TypeScript,
-                até práticas avançadas de Clean Architecture, SOLID e Design Patterns. Atualmente, como Gerente de TI, lidero equipes técnicas
-                e gerencio projetos complexos utilizando metodologias ágeis, sempre mantendo o foco em qualidade e boas práticas de desenvolvimento.
+                Sou um entusiasta da tecnologia que combina paixão por desenvolvimento com visão estratégica. Como Gerente de Desenvolvimento, lidero equipes técnicas em projetos complexos, mantendo-me ativamente envolvido na programação. Especializado em PHP, Laravel, TypeScript e Node.js, busco constantemente inovação e excelência técnica. Minha abordagem única une expertise em desenvolvimento, gestão ágil e implementação de soluções escaláveis, sempre com foco em entregar valor real aos projetos.
               </Typography>
             </Paper>
           </Grid>

@@ -145,6 +145,27 @@ interface Certificate {
 
 const allCertificates: Certificate[] = [
   {
+    name: 'Oracle Cloud Infrastructure 2024 Certified AI Foundations Associate',
+    platform: 'Oracle',
+    date: '2025-02-21',
+    url: 'https://catalog-education.oracle.com/pls/certview/sharebadge?id=40FDA11B0CAFCF5AA29FF0D6430DE8170FB4705701EE1D2B1A81C8A970273DF4',
+    category: 'Backend'
+  },
+  {
+    name: 'Oracle Cloud Infrastructure 2024 Certified Foundations Associate',
+    platform: 'Oracle',
+    date: '2025-02-21',
+    url: 'https://catalog-education.oracle.com/pls/certview/sharebadge?id=0598FCF399E6C908387297D4A5710F0AEA1D9EE832E0D8FEB8B1C5FD714E8EDD',
+    category: 'Backend'
+  },
+  {
+    name: 'Oracle Cloud Infrastructure 2024 Data Certified Foundations Associate',
+    platform: 'Oracle',
+    date: '2025-02-21',
+    url: 'https://catalog-education.oracle.com/pls/certview/sharebadge?id=0598FCF399E6C908387297D4A5710F0A273706A1D38AF6EC5F8DE7F6FDDD84AA',
+    category: 'Backend'
+  },
+  {
     name: 'Node.js: implementando testes em uma API Rest',
     platform: 'Alura',
     date: '2025-01-29',

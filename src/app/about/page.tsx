@@ -145,6 +145,13 @@ interface Certificate {
 
 const allCertificates: Certificate[] = [
   {
+    name: 'Six Sigma White Belt',
+    platform: 'Six Sigma',
+    date: '2025-02-22',
+    url: 'https://dashboard.educate360.com/certification/eyJpdiI6IlpnbHlRTFNEQW9HOGdXK3FvMGc2dFE9PSIsInZhbHVlIjoiOXlRZ1RldTdMeTJpMkhCeGJBaU9Vdz09IiwibWFjIjoiM2JmMmY0ZjUxNGNjMzU2ZmI1ZjU1NDdhM2JiMjQ1ZDk1ZTBiYTk3NDY5NWNjNDc3YjMxMGQ3ODljMWFlNzQwMiIsInRhZyI6IiJ9',
+    category: 'Agile'
+  },
+  {
     name: 'Oracle Cloud Infrastructure 2024 Certified AI Foundations Associate',
     platform: 'Oracle',
     date: '2025-02-21',

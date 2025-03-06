@@ -1,9 +1,37 @@
 'use client';
 
 import { useState } from 'react';
-import { Box, Paper, TextField, IconButton, Typography, Fab } from '@mui/material';
-import { Send, Chat as ChatIcon, Close } from '@mui/icons-material';
+import { Box, Paper, TextField, IconButton, Typography, Fab, keyframes } from '@mui/material';
+import { Send, Close } from '@mui/icons-material';
 import { chatWithGemini } from '@/services/gemini';
+
+// Definindo as animações
+const pulse = keyframes`
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+`;
+
+const blink = keyframes`
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
 
 interface Message {
   text: string;
@@ -71,14 +99,22 @@ export default function ChatBot() {
           position: 'fixed',
           bottom: 20,
           right: 20,
+          zIndex: 9999,
+          animation: `${pulse} 2s infinite ease-in-out`,
           transition: 'all 0.3s ease-in-out',
           '&:hover': {
             transform: 'scale(1.1)',
+            animation: 'none',
+          },
+          '& .MuiTypography-root': {
+            animation: `${blink} 1.5s infinite ease-in-out`,
+            fontWeight: 'bold',
+            fontSize: '1.2rem',
           }
         }}
         onClick={() => setIsOpen(true)}
       >
-        <ChatIcon />
+        <Typography>IA</Typography>
       </Fab>
     );
   }
@@ -95,13 +131,36 @@ export default function ChatBot() {
         flexDirection: 'column',
         overflow: 'hidden',
         boxShadow: theme => theme.shadows[10],
+        zIndex: 9999,
+        border: '1px solid',
+        borderColor: 'primary.main',
+        borderRadius: 2,
       }}
     >
-      <Box sx={{ p: 2, bgcolor: 'primary.main', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant="h6" color="white">
-          Assistente Virtual
+      <Box 
+        sx={{ 
+          p: 2, 
+          bgcolor: 'primary.main',
+          background: theme => `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.primary.light} 90%)`,
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center' 
+        }}
+      >
+        <Typography variant="h6" color="white" sx={{ fontWeight: 'bold' }}>
+          Assistente Virtual IA
         </Typography>
-        <IconButton color="inherit" onClick={() => setIsOpen(false)} size="small">
+        <IconButton 
+          color="inherit" 
+          onClick={() => setIsOpen(false)} 
+          size="small"
+          sx={{
+            '&:hover': {
+              transform: 'rotate(90deg)',
+              transition: 'transform 0.3s ease-in-out',
+            }
+          }}
+        >
           <Close />
         </IconButton>
       </Box>
@@ -114,6 +173,7 @@ export default function ChatBot() {
           display: 'flex',
           flexDirection: 'column',
           gap: 1,
+          bgcolor: 'background.default',
         }}
       >
         {messages.map((message, index) => (
@@ -127,6 +187,7 @@ export default function ChatBot() {
               p: 1.5,
               borderRadius: 2,
               position: 'relative',
+              boxShadow: 1,
               '&::before': message.isUser ? {
                 content: '""',
                 position: 'absolute',
@@ -152,7 +213,13 @@ export default function ChatBot() {
           </Box>
         ))}
         {isLoading && (
-          <Box sx={{ alignSelf: 'flex-start', p: 1 }}>
+          <Box 
+            sx={{ 
+              alignSelf: 'flex-start', 
+              p: 1,
+              animation: `${blink} 1s infinite ease-in-out`
+            }}
+          >
             <Typography variant="body2" color="text.secondary">
               Digitando...
             </Typography>
@@ -160,7 +227,7 @@ export default function ChatBot() {
         )}
       </Box>
 
-      <Box sx={{ p: 2, borderTop: 1, borderColor: 'divider' }}>
+      <Box sx={{ p: 2, borderTop: 1, borderColor: 'divider', bgcolor: 'background.paper' }}>
         <Box sx={{ display: 'flex', gap: 1 }}>
           <TextField
             fullWidth
@@ -170,11 +237,27 @@ export default function ChatBot() {
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
             disabled={isLoading}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '&:hover fieldset': {
+                  borderColor: 'primary.main',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: 'primary.main',
+                },
+              },
+            }}
           />
           <IconButton 
             color="primary" 
             onClick={handleSend}
             disabled={isLoading}
+            sx={{
+              '&:hover': {
+                transform: 'scale(1.1)',
+                transition: 'transform 0.2s ease-in-out',
+              }
+            }}
           >
             <Send />
           </IconButton>

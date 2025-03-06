@@ -10,7 +10,7 @@ export default function Analytics() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const url = pathname + searchParams.toString();
+    const url = pathname + (searchParams?.toString() || '');
     gtag.pageview(url);
   }, [pathname, searchParams]);
 

@@ -5,6 +5,8 @@ import RootLayout from '../presentation/components/layout/RootLayout';
 import Analytics from '../presentation/components/Analytics';
 import Script from 'next/script';
 import { Suspense } from 'react';
+import ChatBot from '@/presentation/components/ChatBot/ChatBot';
+import { inter, spaceGrotesk, outfit } from '../presentation/styles/fonts';
 
 export const metadata: Metadata = {
   title: {
@@ -74,7 +76,7 @@ export default function Layout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html lang="pt-BR" suppressHydrationWarning className={`${inter.variable} ${spaceGrotesk.variable} ${outfit.variable}`}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -139,10 +141,11 @@ export default function Layout({
           <RootLayout>
             {children}
           </RootLayout>
+          <Suspense fallback={null}>
+            <Analytics />
+          </Suspense>
+          <ChatBot />
         </ThemeRegistry>
-        <Suspense fallback={null}>
-          <Analytics />
-        </Suspense>
         
         {/* Microsoft Clarity (opcional) */}
         {process.env.NEXT_PUBLIC_CLARITY_ID && (

@@ -2,6 +2,8 @@
 import * as React from 'react';
 import { Container, Typography, Box, Paper, Grid, Chip, useTheme, TextField, Button, IconButton } from '@mui/material';
 import { School, Work, Code, Language, Terminal, Star, EmojiEvents, Sort, CalendarToday, Link as LinkIcon } from '@mui/icons-material';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import ChatBot from '@/presentation/components/ChatBot/ChatBot';
 
 const skills = [
   // Backend
@@ -720,6 +722,20 @@ function TimelineItem({ experience, index, total }: TimelineItemProps) {
       </Box>
     </Box>
   );
+}
+
+const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY!);
+const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+
+export async function chatWithGemini(prompt: string) {
+  try {
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    return response.text();
+  } catch (error) {
+    console.error('Erro ao chamar Gemini:', error);
+    return 'Desculpe, ocorreu um erro ao processar sua mensagem.';
+  }
 }
 
 export default function AboutPage() {
@@ -1535,6 +1551,7 @@ export default function AboutPage() {
           </Grid>
         </Box>
       </Box>
+      <ChatBot />
     </Container>
   );
 } 

@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { Box, Paper, TextField, IconButton, Typography, Fab, keyframes } from '@mui/material';
 import { Send, Close } from '@mui/icons-material';
-import { chatWithGemini } from '@/services/gemini';
 
 // Definindo as animações
 const pulse = keyframes`
@@ -92,17 +91,27 @@ export default function ChatBot() {
 
     try {
       console.log('Enviando mensagem para processamento...');
-      const response = await chatWithGemini(input);
-      console.log('Resposta recebida do serviço:', response);
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt: input }),
+      });
+
+      const data = await response.json();
+      console.log('Resposta recebida do serviço:', data);
       
-      if (response) {
-        const botMessage: Message = {
-          text: response,
-          isUser: false,
-          timestamp: new Date(),
-        };
-        setMessages(prev => [...prev, botMessage]);
+      if (!response.ok) {
+        throw new Error(data.error || 'Erro ao processar mensagem');
       }
+
+      const botMessage: Message = {
+        text: data.text,
+        isUser: false,
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, botMessage]);
     } catch (error) {
       console.error('Erro no chat:', error);
       const errorMessage: Message = {

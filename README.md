@@ -2,7 +2,7 @@
 
 ## 🚀 Sobre o Projeto
 
-Este é meu portfólio pessoal, desenvolvido com tecnologias modernas para apresentar meus projetos e habilidades como desenvolvedor Full Stack. O site foi construído com foco em performance, acessibilidade e design responsivo.
+Este é meu portfólio pessoal, desenvolvido com tecnologias modernas para apresentar meus projetos e habilidades como desenvolvedor Full Stack. O site foi construído com foco em performance, acessibilidade e design responsivo, incluindo um chatbot inteligente alimentado pelo Google Gemini AI.
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -10,6 +10,7 @@ Este é meu portfólio pessoal, desenvolvido com tecnologias modernas para apres
 - **React** - Biblioteca para construção de interfaces
 - **TypeScript** - Adiciona tipagem estática ao JavaScript
 - **Material-UI** - Framework de design para componentes React
+- **Google Gemini AI** - API de inteligência artificial para o chatbot
 - **React Icons** - Biblioteca de ícones
 - **Node.js** - Ambiente de execução JavaScript
 
@@ -55,6 +56,27 @@ Este é meu portfólio pessoal, desenvolvido com tecnologias modernas para apres
 - Otimizado para SEO
 - Performance otimizada
 - Interface intuitiva
+- Chatbot IA integrado
+- Partículas interativas no background
+- Lazy loading de componentes
+- Analytics integrado
+
+## 🤖 Chatbot com IA
+
+O site conta com um assistente virtual inteligente powered by Google Gemini AI, que oferece:
+- Respostas contextualizadas sobre meu perfil profissional
+- Capacidade de responder perguntas gerais sobre tecnologia
+- Interface amigável e responsiva
+- Histórico de conversas
+- Feedback visual de interações
+
+### Configuração do Chatbot
+
+1. Obtenha uma chave de API do Google Gemini
+2. Configure a variável de ambiente:
+```env
+NEXT_PUBLIC_GEMINI_API_KEY=sua_chave_aqui
+```
 
 ## 🚦 Como Executar
 
@@ -70,14 +92,20 @@ npm install
 yarn install
 ```
 
-3. Execute o servidor de desenvolvimento:
+3. Configure as variáveis de ambiente:
+```bash
+cp .env.example .env.local
+```
+Edite o arquivo `.env.local` com suas credenciais
+
+4. Execute o servidor de desenvolvimento:
 ```bash
 npm run dev
 # ou
 yarn dev
 ```
 
-4. Acesse `http://localhost:3000` no seu navegador
+5. Acesse `http://localhost:3000` no seu navegador
 
 ## 🏗️ Estrutura do Projeto
 
@@ -87,8 +115,12 @@ portfolio/
 ├── src/
 │   ├── app/         # Rotas e páginas
 │   ├── presentation/# Componentes da interface
-│   ├── domain/      # Regras de negócio
-│   └── data/        # Camada de dados
+│   │   ├── components/  # Componentes reutilizáveis
+│   │   ├── styles/     # Estilos e temas
+│   │   └── ChatBot/    # Componentes do chatbot
+│   ├── services/   # Serviços e integrações
+│   ├── domain/     # Regras de negócio
+│   └── data/       # Camada de dados
 └── package.json
 ```
 
@@ -105,6 +137,7 @@ O site é totalmente responsivo e se adapta aos seguintes breakpoints:
 - Gradientes sutis
 - Animações suaves
 - Paleta de cores consistente
+- Partículas interativas
 
 ## 🔧 Scripts Disponíveis
 
@@ -113,6 +146,22 @@ O site é totalmente responsivo e se adapta aos seguintes breakpoints:
 - `npm run start` - Inicia o servidor de produção
 - `npm run lint` - Executa o linter
 - `npm run test` - Executa os testes
+- `npm run generate-icons` - Gera ícones do site
+
+## 📊 Analytics e Monitoramento
+
+- Google Analytics integrado
+- Microsoft Clarity (opcional)
+- Logs de performance
+- Monitoramento de erros
+
+## 🔐 Segurança
+
+- Headers de segurança configurados
+- Proteção contra XSS
+- Sanitização de inputs
+- Variáveis de ambiente seguras
+- Políticas de segurança CSP
 
 ## 📝 Licença
 
@@ -123,7 +172,8 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 **Samuel Camargo**
 
 * Github: [@samuelcamargo](https://github.com/samuelcamargo)
-* LinkedIn: [@samuelcamargo](https://linkedin.com/in/samuelcamargo)
+* LinkedIn: [@samuelcamargoti](https://linkedin.com/in/samuelcamargoti)
+* Site: [@samuelcamargoti](https://samuelcamargo.dev.br/)
 
 ## 🤝 Contribuições
 

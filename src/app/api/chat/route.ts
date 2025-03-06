@@ -9,18 +9,18 @@ Contato: samuelcamargo1@gmail.com | +55 (11) 91481-0664
 
 Formação Acadêmica:
 1. Pós-graduação em Inteligência Artificial aplicada aos Negócios
-   - Instituição: FIAP
+   - Instituição: Universidade Anhembi Morumbi
    - Período: 2024-2025
    - Foco: IA e Machine Learning
 
 2. MBA em Gestão de Projetos
    - Instituição: Universidade Anhembi Morumbi
-   - Período: 2023-2024
+   - Período: 2023-2024 (concluido)
    - Foco: Metodologias ágeis e gestão
 
 3. Graduação em Gestão de TI
    - Instituição: Estácio
-   - Período: 2013-2016
+   - Período: 2013-2016 (concluido)
    - Foco: Gestão estratégica de tecnologia
 
 4. Bacharel em Sistemas da Informação

@@ -146,6 +146,13 @@ interface Certificate {
 
 const allCertificates: Certificate[] = [
   {
+    name: 'Node.js: criptografia e tokens JWT',
+    platform: 'Alura',
+    date: '2025-03-08',
+    url: 'https://cursos.alura.com.br/certificate/db2a6a62-fe9d-4d48-b067-1273b1cfb819?lang=pt_BR',
+    category: 'Backend'
+  },
+  {
     name: 'Six Sigma White Belt',
     platform: 'Six Sigma',
     date: '2025-02-22',

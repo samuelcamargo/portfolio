@@ -100,9 +100,9 @@ export async function POST(req: Request) {
     `;
 
     try {
-      console.log('Iniciando geração de conteúdo com gemini-2.0-flash...');
+      // Iniciando geração de conteúdo com gemini-2.0-flash...
       const result = await model.generateContent(context);
-      console.log('Conteúdo gerado com sucesso');
+      // Conteúdo gerado com sucesso
       const response = await result.response;
       const text = response.text();
       
@@ -114,7 +114,7 @@ export async function POST(req: Request) {
         );
       }
       
-      console.log('Resposta gerada com sucesso');
+      // Resposta gerada com sucesso
       return Response.json({ text });
     } catch (modelError) {
       console.error('Erro na geração de conteúdo:', modelError);

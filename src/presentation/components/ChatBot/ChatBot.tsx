@@ -90,7 +90,6 @@ export default function ChatBot() {
     setIsLoading(true);
 
     try {
-      console.log('Enviando mensagem para processamento...');
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
@@ -100,7 +99,6 @@ export default function ChatBot() {
       });
 
       const data = await response.json();
-      console.log('Resposta recebida do serviço:', data);
       
       if (!response.ok) {
         throw new Error(data.error || 'Erro ao processar mensagem');
@@ -113,7 +111,6 @@ export default function ChatBot() {
       };
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
-      console.error('Erro no chat:', error);
       const errorMessage: Message = {
         text: 'Desculpe, ocorreu um erro ao processar sua mensagem. Por favor, tente novamente.',
         isUser: false,

@@ -1,11 +1,12 @@
 import * as React from 'react';
 import type { Metadata } from 'next';
 import ThemeRegistry from '../presentation/components/layout/ThemeRegistry';
-import RootLayout from '../presentation/components/layout/RootLayout';
+import RootLayoutWrapper from '../presentation/components/layout/RootLayoutWrapper';
 import Analytics from '../presentation/components/Analytics';
 import Script from 'next/script';
 import { Suspense } from 'react';
-import ChatBot from '@/presentation/components/ChatBot/ChatBot';
+import ChatBotWrapper from '@/presentation/components/ChatBot/ChatBotWrapper';
+import ClientProviders from '@/presentation/components/layout/ClientProviders';
 
 export const metadata: Metadata = {
   title: {
@@ -69,7 +70,7 @@ export const metadata: Metadata = {
   category: 'technology',
 };
 
-export default function Layout({
+export default function RootLayoutMain({
   children,
 }: {
   children: React.ReactNode;
@@ -78,13 +79,15 @@ export default function Layout({
     <html lang="pt-BR" suppressHydrationWarning>
       <body>
         <ThemeRegistry>
-          <RootLayout>
-            {children}
-          </RootLayout>
-          <Suspense fallback={null}>
-            <Analytics />
-          </Suspense>
-          <ChatBot />
+          <ClientProviders>
+            <RootLayoutWrapper>
+              {children}
+            </RootLayoutWrapper>
+            <Suspense fallback={null}>
+              <Analytics />
+            </Suspense>
+            <ChatBotWrapper />
+          </ClientProviders>
         </ThemeRegistry>
         
         {/* Microsoft Clarity (opcional) */}

@@ -2,15 +2,17 @@
 
 ## 🚀 Sobre o Projeto
 
-Este é meu portfólio pessoal, desenvolvido com tecnologias modernas para apresentar meus projetos e habilidades como desenvolvedor Full Stack. O site foi construído com foco em performance, acessibilidade e design responsivo, incluindo um chatbot inteligente alimentado pelo Google Gemini AI.
+Este é meu portfólio pessoal, desenvolvido com tecnologias modernas para apresentar meus projetos e habilidades como desenvolvedor Full Stack. O site foi construído com foco em performance, acessibilidade e design responsivo, incluindo um chatbot inteligente alimentado pelo Google Gemini AI e uma área administrativa protegida.
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Next.js 14** - Framework React com SSR e otimizações de performance
+- **Next.js 14** - Framework React com App Router, Server Components e otimizações de performance
 - **React** - Biblioteca para construção de interfaces
 - **TypeScript** - Adiciona tipagem estática ao JavaScript
 - **Material-UI** - Framework de design para componentes React
 - **Google Gemini AI** - API de inteligência artificial para o chatbot
+- **JWT Authentication** - Autenticação segura com tokens
+- **Cookies** - Gerenciamento de sessão via cookies
 - **React Icons** - Biblioteca de ícones
 - **Node.js** - Ambiente de execução JavaScript
 
@@ -19,10 +21,10 @@ Este é meu portfólio pessoal, desenvolvido com tecnologias modernas para apres
 ### Core
 ```json
 {
-  "next": "^14.1.0",
+  "next": "14.1.0",
   "react": "^18.2.0",
   "react-dom": "^18.2.0",
-  "typescript": "^5.3.3"
+  "typescript": "~5.5.0"
 }
 ```
 
@@ -33,33 +35,87 @@ Este é meu portfólio pessoal, desenvolvido com tecnologias modernas para apres
   "@mui/icons-material": "^5.15.10",
   "@emotion/react": "^11.11.3",
   "@emotion/styled": "^11.11.0",
-  "react-icons": "^5.0.1"
+  "react-icons": "^5.4.0"
 }
 ```
 
-### Desenvolvimento
+### Utilitários e Integrações
 ```json
 {
-  "@types/node": "^20.11.17",
-  "@types/react": "^18.2.55",
-  "@types/react-dom": "^18.2.19",
-  "eslint": "^8.56.0",
-  "eslint-config-next": "^14.1.0"
+  "@google/generative-ai": "^0.23.0",
+  "js-cookie": "^3.0.5",
+  "date-fns": "^4.1.0",
+  "sharp": "^0.33.5"
 }
 ```
 
-## ✨ Características
+## 📐 Arquitetura do Projeto
 
-- Design responsivo e moderno
-- Tema escuro
-- Animações suaves
-- Otimizado para SEO
-- Performance otimizada
-- Interface intuitiva
-- Chatbot IA integrado
-- Partículas interativas no background
-- Lazy loading de componentes
-- Analytics integrado
+O projeto segue uma arquitetura moderna baseada no App Router do Next.js 14, com layouts específicos para diferentes seções:
+
+### Layouts
+- **Root Layout** - Layout principal com encapsulamento condicional para diferentes rotas
+- **Dashboard Layout** - Layout específico para área administrativa
+- **Auth Layout** - Layout para páginas de autenticação
+
+### Autenticação
+
+O sistema de autenticação implementa:
+- Token JWT armazenado em cookies
+- Middleware para proteção de rotas
+- Contexto React para gerenciamento de estado de autenticação
+- Redirecionamentos automáticos
+- Verificação de autenticação em tempo real
+
+### Contextos
+- **AuthContext** - Gerencia estado de autenticação e tokens
+- **ThemeProvider** - Gerencia tema da aplicação
+
+### Componentes Especiais
+- **ChatBot** - Assistente virtual com IA Gemini
+- **ProjectCard** - Exibição de projetos do GitHub
+- **RootLayoutWrapper** - Componente inteligente para aplicar layouts condicionalmente
+
+## 🏗️ Estrutura do Projeto
+
+```
+portfolio/
+├── public/             # Arquivos estáticos
+├── src/
+│   ├── app/            # Aplicação Next.js com App Router
+│   │   ├── (auth)/     # Rotas de autenticação (grupo)
+│   │   │   ├── login/  # Página de login
+│   │   │   └── layout.tsx  # Layout específico de autenticação
+│   │   ├── (dashboard)/# Rotas administrativas (grupo)
+│   │   │   ├── dashboard/  # Dashboard principal
+│   │   │   └── layout.tsx  # Layout específico do dashboard
+│   │   ├── api/        # Rotas de API
+│   │   │   └── chat/   # Endpoint do chatbot
+│   │   ├── about/      # Página Sobre
+│   │   ├── contact/    # Página Contato
+│   │   ├── projects/   # Página de Projetos
+│   │   ├── layout.tsx  # Layout raiz
+│   │   └── page.tsx    # Página inicial
+│   ├── contexts/       # Contextos React (AuthContext)
+│   ├── presentation/   # Componentes de apresentação
+│   │   ├── components/ # Componentes reutilizáveis
+│   │   │   ├── layout/ # Componentes de layout (Headers, Footers)
+│   │   │   └── ChatBot/# Componentes do chatbot
+│   ├── services/       # Serviços e integrações externas
+│   │   └── github.ts   # Integração com API do GitHub
+│   ├── hooks/          # Custom hooks
+│   ├── utils/          # Funções utilitárias
+│   ├── types.d.ts      # Definições de tipos globais
+│   └── middleware.ts   # Middleware Next.js para controle de rotas
+└── package.json
+```
+
+## 🌐 Middleware e Proteção de Rotas
+
+O projeto utiliza o middleware do Next.js para:
+- Proteger rotas do dashboard exigindo autenticação
+- Redirecionar usuários já autenticados para o dashboard quando tentam acessar o login
+- Permitir acesso público às rotas não protegidas
 
 ## 🤖 Chatbot com IA
 
@@ -75,8 +131,17 @@ O site conta com um assistente virtual inteligente powered by Google Gemini AI, 
 1. Obtenha uma chave de API do Google Gemini
 2. Configure a variável de ambiente:
 ```env
-NEXT_PUBLIC_GEMINI_API_KEY=sua_chave_aqui
+GEMINI_API_KEY=sua_chave_aqui
 ```
+
+## 🛣️ Gerenciamento de Projetos
+
+A seção de projetos apresenta:
+- Integração automática com repositórios GitHub
+- Filtragem de projetos relevantes
+- Exibição de linguagens utilizadas
+- Estatísticas de projetos (estrelas, forks)
+- Layout responsivo com cards informativos
 
 ## 🚦 Como Executar
 
@@ -88,8 +153,6 @@ git clone https://github.com/samuelcamargo/portfolio.git
 2. Instale as dependências:
 ```bash
 npm install
-# ou
-yarn install
 ```
 
 3. Configure as variáveis de ambiente:
@@ -101,27 +164,47 @@ Edite o arquivo `.env.local` com suas credenciais
 4. Execute o servidor de desenvolvimento:
 ```bash
 npm run dev
-# ou
-yarn dev
 ```
 
 5. Acesse `http://localhost:3000` no seu navegador
 
-## 🏗️ Estrutura do Projeto
+## 🔧 Scripts Disponíveis
 
+- `npm run dev` - Inicia o servidor de desenvolvimento
+- `npm run build` - Cria a build de produção
+- `npm run start` - Inicia o servidor de produção
+- `npm run lint` - Executa o linter
+- `npm run cleanup` - Limpa arquivos desnecessários e prepara para produção
+- `npm run prod` - Realiza limpeza e inicia o servidor de produção
+- `npm run generate-icons` - Gera ícones do site
+
+## 🚀 Preparação para Produção
+
+Para preparar o projeto para produção:
+
+1. Execute a limpeza de arquivos temporários:
+```bash
+npm run cleanup
 ```
-portfolio/
-├── public/          # Arquivos estáticos
-├── src/
-│   ├── app/         # Rotas e páginas
-│   ├── presentation/# Componentes da interface
-│   │   ├── components/  # Componentes reutilizáveis
-│   │   ├── styles/     # Estilos e temas
-│   │   └── ChatBot/    # Componentes do chatbot
-│   ├── services/   # Serviços e integrações
-│   ├── domain/     # Regras de negócio
-│   └── data/       # Camada de dados
-└── package.json
+
+2. Verifique se não há erros no lint:
+```bash
+npm run lint
+```
+
+3. Gere a build de produção:
+```bash
+npm run build
+```
+
+4. Inicie o servidor de produção:
+```bash
+npm run start
+```
+
+Ou simplesmente use o comando unificado:
+```bash
+npm run prod
 ```
 
 ## 📱 Responsividade
@@ -130,23 +213,6 @@ O site é totalmente responsivo e se adapta aos seguintes breakpoints:
 - Mobile: < 600px
 - Tablet: 600px - 960px
 - Desktop: > 960px
-
-## 🎨 Temas e Estilização
-
-- Tema escuro moderno
-- Gradientes sutis
-- Animações suaves
-- Paleta de cores consistente
-- Partículas interativas
-
-## 🔧 Scripts Disponíveis
-
-- `npm run dev` - Inicia o servidor de desenvolvimento
-- `npm run build` - Cria a build de produção
-- `npm run start` - Inicia o servidor de produção
-- `npm run lint` - Executa o linter
-- `npm run test` - Executa os testes
-- `npm run generate-icons` - Gera ícones do site
 
 ## 📊 Analytics e Monitoramento
 
@@ -157,11 +223,11 @@ O site é totalmente responsivo e se adapta aos seguintes breakpoints:
 
 ## 🔐 Segurança
 
+- Autenticação via JWT
 - Headers de segurança configurados
-- Proteção contra XSS
+- Proteção de rotas via middleware
 - Sanitização de inputs
 - Variáveis de ambiente seguras
-- Políticas de segurança CSP
 
 ## 📝 Licença
 
@@ -173,7 +239,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 * Github: [@samuelcamargo](https://github.com/samuelcamargo)
 * LinkedIn: [@samuelcamargoti](https://linkedin.com/in/samuelcamargoti)
-* Site: [@samuelcamargoti](https://samuelcamargo.dev.br/)
+* Site: [samuelcamargo.dev](https://samuelcamargo.dev)
 
 ## 🤝 Contribuições
 

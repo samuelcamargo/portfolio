@@ -1,98 +1,124 @@
-interface GithubRepository {
+interface GitHubApiRepo {
+  id: number;
   name: string;
-  description: string;
+  description: string | null;
   html_url: string;
-  homepage: string;
+  homepage: string | null;
+  stargazers_count: number;
+  forks_count: number;
   topics: string[];
-  created_at: string;
-  language: string;
   updated_at: string;
-  default_branch: string;
-}
-
-interface ProjectData {
-  title: string;
-  description: string;
-  tags: string[];
-  github: string;
-  demo: string;
-  updatedAt: string;
-  lastCommit: {
-    message: string;
-    date: string;
+  languages_url: string;
+  owner: {
+    login: string;
+    avatar_url: string;
+    html_url: string;
   };
+  fork: boolean;
+  archived: boolean;
+  disabled: boolean;
 }
 
-export async function getGithubRepositories(): Promise<ProjectData[]> {
+export async function getGithubRepositories(): Promise<Repository[]> {
   try {
-    // Log inicial
-    console.log('=== Iniciando busca de repositórios ===');
-    console.log('Token presente:', !!process.env.NEXT_PUBLIC_GITHUB_TOKEN);
+    // Iniciando busca de repositórios
+    // Token presente: true/false
     
-    // Configuração do fetch
-    const url = 'https://api.github.com/users/samuelcamargo/repos';
-    const options = {
-      headers: {
-        'Accept': 'application/vnd.github.v3+json',
-        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
-        'X-GitHub-Api-Version': '2022-11-28'
-      },
-      cache: 'no-store' as RequestCache
-    };
-
-    console.log('Fazendo requisição para:', url);
-    const response = await fetch(url, options);
-    
-    // Log do resultado da requisição
-    console.log('Resposta recebida:', {
-      ok: response.ok,
-      status: response.status,
-      statusText: response.statusText
+    // Construir a URL de busca
+    const baseUrl = 'https://api.github.com/users/samuelcamargo/repos';
+    const params = new URLSearchParams({
+      sort: 'updated',
+      per_page: '100',
+      type: 'owner'
     });
-
+    
+    const url = `${baseUrl}?${params.toString()}`;
+    
+    // Fazendo requisição para: url
+    
+    const headers: HeadersInit = {
+      'Accept': 'application/vnd.github.v3+json'
+    };
+    
+    if (process.env.NEXT_PUBLIC_GITHUB_TOKEN) {
+      headers['Authorization'] = `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`;
+    }
+    
+    const response = await fetch(url, { headers });
+    
+    // Resposta recebida: status e ok
+    
     if (!response.ok) {
-      const error = await response.text();
-      console.error('Erro na API:', error);
-      console.error('Status:', response.status);
-      console.error('Headers:', Object.fromEntries(response.headers.entries()));
-      return [];
+      throw new Error(`GitHub API responded with status ${response.status}`);
     }
-
-    const repos = await response.json();
-    console.log(`Encontrados ${repos.length} repositórios`);
-
-    // Processamento dos repositórios
-    const projects = await Promise.all(repos.map(async (repo: GithubRepository) => {
-      console.log(`Processando repositório: ${repo.name}`);
-      
-      return {
-        title: repo.name,
-        description: repo.description || 'Descrição não disponível',
-        tags: repo.topics.length > 0 ? repo.topics : [repo.language].filter(Boolean),
-        github: repo.html_url,
-        demo: repo.homepage || '',
-        updatedAt: repo.updated_at,
-        lastCommit: {
-          message: 'Último commit',
-          date: repo.updated_at
-        }
-      };
-    }));
-
-    // Ordenação e retorno
-    const sortedProjects = projects.sort((a, b) => 
-      new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+    
+    const data = await response.json() as GitHubApiRepo[];
+    
+    // Filtrando repositórios
+    const repos = data.filter((repo) => {
+      if (repo.fork) return false;
+      if (repo.archived) return false;
+      if (repo.disabled) return false;
+      if (repo.name.includes('test') || repo.name.includes('example')) return false;
+      return true;
+    });
+    
+    // Encontrados X repositórios
+    
+    // Processando cada repositório
+    const processedRepos = await Promise.all(
+      repos.map(async (repo) => {
+        // Processando repositório: nome
+        
+        const languages = await getRepositoryLanguages(repo.languages_url);
+        
+        return {
+          id: repo.id,
+          name: repo.name,
+          description: repo.description || 'Sem descrição disponível',
+          url: repo.html_url,
+          homepage: repo.homepage,
+          stars: repo.stargazers_count,
+          forks: repo.forks_count,
+          languages,
+          lastUpdated: repo.updated_at,
+          topics: repo.topics || [],
+          owner: {
+            login: repo.owner.login,
+            avatar: repo.owner.avatar_url,
+            url: repo.owner.html_url
+          }
+        };
+      })
     );
-
-    console.log('=== Busca finalizada com sucesso ===');
-    return sortedProjects;
-
+    
+    // Busca finalizada com sucesso
+    
+    return processedRepos;
   } catch (error) {
-    console.error('Erro ao buscar repositórios:', error);
-    if (error instanceof Error) {
-      console.error('Mensagem de erro:', error.message);
-      console.error('Stack trace:', error.stack);
+    throw new Error(`Failed to fetch repositories: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
+// Função para obter linguagens do repositório
+async function getRepositoryLanguages(languagesUrl: string): Promise<Record<string, number>> {
+  const headers: HeadersInit = {
+    'Accept': 'application/vnd.github.v3+json'
+  };
+  
+  if (process.env.NEXT_PUBLIC_GITHUB_TOKEN) {
+    headers['Authorization'] = `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`;
+  }
+  
+  try {
+    const response = await fetch(languagesUrl, { headers });
+    
+    if (!response.ok) {
+      return {};
     }
-    return [];
+    
+    return await response.json();
+  } catch (error) {
+    return {};
   }
 } 

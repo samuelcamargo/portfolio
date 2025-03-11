@@ -16,11 +16,11 @@ export default function DashboardHeader() {
   return (
     <AppBar 
       position="static" 
-      color="primary" 
-      elevation={0}
       sx={{
+        bgcolor: '#0f172a',
         borderBottom: '1px solid',
-        borderColor: 'divider',
+        borderColor: 'rgba(248, 250, 252, 0.1)',
+        boxShadow: 'none',
       }}
     >
       <Toolbar sx={{ minHeight: { xs: '64px', sm: '72px' } }}>
@@ -33,16 +33,11 @@ export default function DashboardHeader() {
             cursor: 'pointer',
             fontSize: { xs: '1.2rem', sm: '1.5rem' },
             fontWeight: 700,
+            color: '#f8fafc',
             letterSpacing: '-0.02em',
             fontFamily: '"Clash Display", sans-serif',
-            background: 'linear-gradient(135deg, #F8FAFC 0%, #94A3B8 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            textShadow: '0 2px 10px rgba(124, 58, 237, 0.2)',
             '&:hover': {
-              background: 'linear-gradient(135deg, #F8FAFC 30%, #7C3AED 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
+              color: '#94a3b8',
             }
           }}
         >
@@ -50,12 +45,14 @@ export default function DashboardHeader() {
         </Typography>
 
         <Button 
-          color="inherit" 
           onClick={logout}
           startIcon={<LogoutIcon />}
           sx={{
+            color: '#f8fafc',
+            borderRadius: '8px',
+            padding: '8px 16px',
             '&:hover': {
-              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              backgroundColor: 'rgba(248, 250, 252, 0.1)',
             }
           }}
         >

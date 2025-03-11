@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 interface AuthContextType {
   isAuthenticated: boolean;
   token: string | null;
-  login: (username: string, password: string) => Promise<void>;
+  login: (_username: string, _password: string) => Promise<void>;
   logout: () => void;
 }
 

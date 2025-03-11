@@ -14,6 +14,10 @@ import {
 } from '@mui/material';
 import { Lock as LockIcon, Visibility, VisibilityOff } from '@mui/icons-material';
 
+interface NetworkError {
+  message?: string;
+}
+
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -29,13 +33,14 @@ export default function LoginPage() {
     
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-      setApiStatus(`Verificando API em: ${apiUrl}`);
+      setApiStatus(`Verificando conexão com API...`);
       
       try {
         const response = await fetch(apiUrl as string);
-        setApiStatus(`API base respondeu com status: ${response.status}`);
-      } catch (error: any) {
-        setApiStatus(`Erro na conexão com API: ${error.message || 'Erro desconhecido'}`);
+        setApiStatus(`Status da API: ${response.status === 200 ? 'Online' : 'Com problemas'} (${response.status})`);
+      } catch (error: unknown) {
+        const networkError = error as NetworkError;
+        setApiStatus(`Erro na conexão com a API: ${networkError.message ? 'Falha na rede' : 'Erro desconhecido'}`);
       }
     } catch (error: unknown) {
       setApiStatus(`Erro no diagnóstico: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
@@ -176,7 +181,7 @@ export default function LoginPage() {
 
         {diagnosticMode && (
           <Typography variant="caption" color="text.secondary" sx={{ mt: 2, display: 'block', textAlign: 'center' }}>
-            API URL: {process.env.NEXT_PUBLIC_API_URL || 'não definida'}
+            Status do Servidor de Autenticação: {process.env.NEXT_PUBLIC_API_URL ? 'Configurado' : 'Não configurado'}
           </Typography>
         )}
       </Box>

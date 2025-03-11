@@ -1,29 +1,41 @@
 'use client';
 
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Typography, Link as MuiLink } from '@mui/material';
 
 export default function DashboardFooter() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <Box
       component="footer"
       sx={{
-        width: '100%',
         py: 3,
+        px: 2,
         mt: 'auto',
-        background: 'transparent',
+        backgroundColor: '#0f172a',
         borderTop: '1px solid',
-        borderColor: 'divider',
+        borderColor: 'rgba(248, 250, 252, 0.1)',
+        textAlign: 'center',
       }}
     >
-      <Container maxWidth="lg">
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          align="center"
+      <Typography variant="body2" color="#94a3b8">
+        © {currentYear}{' '}
+        <MuiLink
+          href="https://samuelcamargo.dev"
+          target="_blank"
+          rel="noopener noreferrer"
+          underline="none"
+          sx={{ 
+            color: '#f8fafc',
+            '&:hover': {
+              textDecoration: 'underline',
+            }
+          }}
         >
-          © 2025 Samuel Camargo
-        </Typography>
-      </Container>
+          Samuel Camargo
+        </MuiLink>
+        . Todos os direitos reservados.
+      </Typography>
     </Box>
   );
 } 

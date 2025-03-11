@@ -146,6 +146,13 @@ interface Certificate {
 
 const allCertificates: Certificate[] = [
   {
+    name: 'Node.js: criando API Rest com autenticação, perfis de usuários e permissões',
+    platform: 'Alura',
+    date: '2025-03-10',
+    url: 'https://cursos.alura.com.br/certificate/c2dd0442-a0f3-418e-9912-d810665587ec?lang=pt_BR',
+    category: 'Backend'
+  },
+  {
     name: 'Node.js: criptografia e tokens JWT',
     platform: 'Alura',
     date: '2025-03-08',

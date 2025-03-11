@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const path = require('path');
+
 const nextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
@@ -7,6 +9,12 @@ const nextConfig = {
   images: {
     domains: ['api.github.com', 'raw.githubusercontent.com'],
     formats: ['image/avif', 'image/webp'],
+  },
+  webpack: (config, { dev, isServer }) => {
+    if (dev) {
+      config.cache = false;
+    }
+    return config;
   },
   async headers() {
     return [

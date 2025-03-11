@@ -22,7 +22,13 @@ import {
   Menu as MenuIcon,
   Close as CloseIcon,
   WorkspacePremium as CertificateIcon,
-  AddTask as AddCertificateIcon
+  AddTask as AddCertificateIcon,
+  School as EducationIcon,
+  Add as AddEducationIcon,
+  Work as ExperienceIcon,
+  AddBusiness as AddExperienceIcon,
+  Psychology as SkillIcon,
+  Addchart as AddSkillIcon
 } from '@mui/icons-material';
 import { useState } from 'react';
 import { DASHBOARD_ROUTES } from '@/app/(dashboard)/routes';
@@ -56,6 +62,21 @@ export default function DashboardSidebar() {
   const certificateManagementItems: DrawerItem[] = [
     { text: 'Listar Certificados', icon: <CertificateIcon />, path: DASHBOARD_ROUTES.certificates },
     { text: 'Novo Certificado', icon: <AddCertificateIcon />, path: DASHBOARD_ROUTES.certificateCreate },
+  ];
+
+  const educationManagementItems: DrawerItem[] = [
+    { text: 'Listar Educação', icon: <EducationIcon />, path: DASHBOARD_ROUTES.education },
+    { text: 'Nova Educação', icon: <AddEducationIcon />, path: DASHBOARD_ROUTES.educationCreate },
+  ];
+
+  const experienceManagementItems: DrawerItem[] = [
+    { text: 'Listar Experiências', icon: <ExperienceIcon />, path: DASHBOARD_ROUTES.experiences },
+    { text: 'Nova Experiência', icon: <AddExperienceIcon />, path: DASHBOARD_ROUTES.experienceCreate },
+  ];
+
+  const skillManagementItems: DrawerItem[] = [
+    { text: 'Listar Habilidades', icon: <SkillIcon />, path: DASHBOARD_ROUTES.skills },
+    { text: 'Nova Habilidade', icon: <AddSkillIcon />, path: DASHBOARD_ROUTES.skillCreate },
   ];
 
   const renderNavItem = (item: DrawerItem) => (
@@ -132,6 +153,33 @@ export default function DashboardSidebar() {
         </Box>
         <List>
           {certificateManagementItems.map(renderNavItem)}
+        </List>
+        <Divider sx={{ bgcolor: 'rgba(248, 250, 252, 0.12)' }} />
+        <Box sx={{ px: 2, py: 1 }}>
+          <Typography variant="subtitle2" sx={{ color: '#94a3b8', fontWeight: 600 }}>
+            Gerenciamento de Educação
+          </Typography>
+        </Box>
+        <List>
+          {educationManagementItems.map(renderNavItem)}
+        </List>
+        <Divider sx={{ bgcolor: 'rgba(248, 250, 252, 0.12)' }} />
+        <Box sx={{ px: 2, py: 1 }}>
+          <Typography variant="subtitle2" sx={{ color: '#94a3b8', fontWeight: 600 }}>
+            Gerenciamento de Experiências
+          </Typography>
+        </Box>
+        <List>
+          {experienceManagementItems.map(renderNavItem)}
+        </List>
+        <Divider sx={{ bgcolor: 'rgba(248, 250, 252, 0.12)' }} />
+        <Box sx={{ px: 2, py: 1 }}>
+          <Typography variant="subtitle2" sx={{ color: '#94a3b8', fontWeight: 600 }}>
+            Gerenciamento de Habilidades
+          </Typography>
+        </Box>
+        <List>
+          {skillManagementItems.map(renderNavItem)}
         </List>
       </Box>
     </>

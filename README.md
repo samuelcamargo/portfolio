@@ -2,7 +2,7 @@
 
 ## 🚀 Sobre o Projeto
 
-Este é meu portfólio pessoal, desenvolvido com tecnologias modernas para apresentar meus projetos e habilidades como desenvolvedor Full Stack. O site foi construído com foco em performance, acessibilidade e design responsivo, incluindo um chatbot inteligente alimentado pelo Google Gemini AI e uma área administrativa protegida.
+Este é meu portfólio pessoal, desenvolvido com tecnologias modernas para apresentar meus projetos e habilidades como desenvolvedor Full Stack. O site foi construído com foco em performance, acessibilidade e design responsivo, incluindo um chatbot inteligente alimentado pelo Google Gemini AI e uma área administrativa completa.
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -22,20 +22,21 @@ Este é meu portfólio pessoal, desenvolvido com tecnologias modernas para apres
 ```json
 {
   "next": "14.1.0",
-  "react": "^18.2.0",
+  "react": "^18.3.1",
   "react-dom": "^18.2.0",
-  "typescript": "~5.5.0"
+  "typescript": "~5.5.4"
 }
 ```
 
 ### UI e Estilização
 ```json
 {
-  "@mui/material": "^5.15.10",
-  "@mui/icons-material": "^5.15.10",
-  "@emotion/react": "^11.11.3",
-  "@emotion/styled": "^11.11.0",
-  "react-icons": "^5.4.0"
+  "@mui/material": "^5.16.14",
+  "@mui/icons-material": "^5.16.14",
+  "@emotion/react": "^11.14.0",
+  "@emotion/styled": "^11.14.0",
+  "react-icons": "^5.4.0",
+  "@mui/x-date-pickers": "^7.27.3"
 }
 ```
 
@@ -44,8 +45,9 @@ Este é meu portfólio pessoal, desenvolvido com tecnologias modernas para apres
 {
   "@google/generative-ai": "^0.23.0",
   "js-cookie": "^3.0.5",
-  "date-fns": "^4.1.0",
-  "sharp": "^0.33.5"
+  "date-fns": "^2.29.3",
+  "sharp": "^0.33.5",
+  "react-chat-elements": "^12.0.17"
 }
 ```
 
@@ -67,6 +69,16 @@ O sistema de autenticação implementa:
 - Redirecionamentos automáticos
 - Verificação de autenticação em tempo real
 
+### Sistema Administrativo Completo
+
+O dashboard administrativo oferece gerenciamento completo de:
+- **Usuários** - Cadastro e gerenciamento de administradores
+- **Perfil** - Atualização de informações pessoais
+- **Certificados** - CRUD completo com categorização e busca
+- **Educação** - Gerenciamento de formação acadêmica
+- **Experiências Profissionais** - Cadastro e edição de experiências de trabalho
+- **Habilidades** - Organização de skills por categorias e níveis de conhecimento
+
 ### Contextos
 - **AuthContext** - Gerencia estado de autenticação e tokens
 - **ThemeProvider** - Gerencia tema da aplicação
@@ -75,6 +87,7 @@ O sistema de autenticação implementa:
 - **ChatBot** - Assistente virtual com IA Gemini
 - **ProjectCard** - Exibição de projetos do GitHub
 - **RootLayoutWrapper** - Componente inteligente para aplicar layouts condicionalmente
+- **Form Components** - Componentes de formulário reutilizáveis para o CRUD
 
 ## 🏗️ Estrutura do Projeto
 
@@ -88,6 +101,11 @@ portfolio/
 │   │   │   └── layout.tsx  # Layout específico de autenticação
 │   │   ├── (dashboard)/# Rotas administrativas (grupo)
 │   │   │   ├── dashboard/  # Dashboard principal
+│   │   │   ├── certificates/  # Gerenciamento de certificados
+│   │   │   ├── education/  # Gerenciamento de educação
+│   │   │   ├── experiences/  # Gerenciamento de experiências
+│   │   │   ├── skills/  # Gerenciamento de habilidades
+│   │   │   ├── users/  # Gerenciamento de usuários
 │   │   │   └── layout.tsx  # Layout específico do dashboard
 │   │   ├── api/        # Rotas de API
 │   │   │   └── chat/   # Endpoint do chatbot
@@ -100,13 +118,21 @@ portfolio/
 │   ├── presentation/   # Componentes de apresentação
 │   │   ├── components/ # Componentes reutilizáveis
 │   │   │   ├── layout/ # Componentes de layout (Headers, Footers)
+│   │   │   ├── dashboard/ # Componentes do dashboard (Tabelas, Formulários)
 │   │   │   └── ChatBot/# Componentes do chatbot
 │   ├── services/       # Serviços e integrações externas
-│   │   └── github.ts   # Integração com API do GitHub
+│   │   ├── github.ts   # Integração com API do GitHub
+│   │   ├── certificateService.ts # Serviços para certificados
+│   │   ├── educationService.ts # Serviços para educação
+│   │   ├── experienceService.ts # Serviços para experiências
+│   │   └── skillService.ts # Serviços para habilidades
 │   ├── hooks/          # Custom hooks
 │   ├── utils/          # Funções utilitárias
 │   ├── types.d.ts      # Definições de tipos globais
 │   └── middleware.ts   # Middleware Next.js para controle de rotas
+├── .npmrc              # Configurações do npm
+├── vercel.json         # Configurações de deploy
+├── next.config.js      # Configurações do Next.js
 └── package.json
 ```
 
@@ -134,6 +160,29 @@ O site conta com um assistente virtual inteligente powered by Google Gemini AI, 
 GEMINI_API_KEY=sua_chave_aqui
 ```
 
+## 📋 Sistema de Gestão de Conteúdo
+
+O dashboard administrativo oferece:
+
+### Certificados
+- Cadastro de certificados com data, plataforma e categorias
+- Agrupamento por categorias
+- Exibição organizada na página de sobre
+
+### Educação
+- Gerenciamento de formação acadêmica
+- Exibição cronológica no portfólio
+
+### Experiências Profissionais
+- Cadastro detalhado de experiências profissionais
+- Descrições ricas de atividades e tecnologias utilizadas
+- Timeline interativa na página de sobre
+
+### Habilidades
+- Classificação por nível (Básico, Intermediário, Avançado)
+- Categorização (Frontend, Backend, Database, etc.)
+- Exibição visual em seção dedicada
+
 ## 🛣️ Gerenciamento de Projetos
 
 A seção de projetos apresenta:
@@ -152,7 +201,7 @@ git clone https://github.com/samuelcamargo/portfolio.git
 
 2. Instale as dependências:
 ```bash
-npm install
+npm install --legacy-peer-deps
 ```
 
 3. Configure as variáveis de ambiente:
@@ -178,34 +227,28 @@ npm run dev
 - `npm run prod` - Realiza limpeza e inicia o servidor de produção
 - `npm run generate-icons` - Gera ícones do site
 
-## 🚀 Preparação para Produção
+## 🚀 Deploy com Vercel
 
-Para preparar o projeto para produção:
+O projeto está configurado para deploy na Vercel com:
 
-1. Execute a limpeza de arquivos temporários:
+1. Configurações específicas em `vercel.json`
+2. Uso de --legacy-peer-deps para resolver conflitos de dependências
+3. Otimizações de build para melhor performance
+
+Para fazer deploy:
 ```bash
-npm run cleanup
+vercel
 ```
 
-2. Verifique se não há erros no lint:
-```bash
-npm run lint
-```
+Ou configurar deploy automático através do GitHub.
 
-3. Gere a build de produção:
-```bash
-npm run build
-```
+## 🔐 Segurança
 
-4. Inicie o servidor de produção:
-```bash
-npm run start
-```
-
-Ou simplesmente use o comando unificado:
-```bash
-npm run prod
-```
+- Autenticação via JWT
+- Headers de segurança configurados
+- Proteção de rotas via middleware
+- Sanitização de inputs
+- Variáveis de ambiente seguras
 
 ## 📱 Responsividade
 
@@ -220,14 +263,6 @@ O site é totalmente responsivo e se adapta aos seguintes breakpoints:
 - Microsoft Clarity (opcional)
 - Logs de performance
 - Monitoramento de erros
-
-## 🔐 Segurança
-
-- Autenticação via JWT
-- Headers de segurança configurados
-- Proteção de rotas via middleware
-- Sanitização de inputs
-- Variáveis de ambiente seguras
 
 ## 📝 Licença
 

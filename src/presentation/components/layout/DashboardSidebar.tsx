@@ -20,7 +20,9 @@ import {
   PersonAdd as PersonAddIcon,
   Person as PersonIcon,
   Menu as MenuIcon,
-  Close as CloseIcon
+  Close as CloseIcon,
+  WorkspacePremium as CertificateIcon,
+  AddTask as AddCertificateIcon
 } from '@mui/icons-material';
 import { useState } from 'react';
 import { DASHBOARD_ROUTES } from '@/app/(dashboard)/routes';
@@ -49,6 +51,11 @@ export default function DashboardSidebar() {
   const userManagementItems: DrawerItem[] = [
     { text: 'Listar Usuários', icon: <PeopleIcon />, path: DASHBOARD_ROUTES.users },
     { text: 'Novo Usuário', icon: <PersonAddIcon />, path: DASHBOARD_ROUTES.userCreate },
+  ];
+  
+  const certificateManagementItems: DrawerItem[] = [
+    { text: 'Listar Certificados', icon: <CertificateIcon />, path: DASHBOARD_ROUTES.certificates },
+    { text: 'Novo Certificado', icon: <AddCertificateIcon />, path: DASHBOARD_ROUTES.certificateCreate },
   ];
 
   const renderNavItem = (item: DrawerItem) => (
@@ -116,6 +123,15 @@ export default function DashboardSidebar() {
         </Box>
         <List>
           {userManagementItems.map(renderNavItem)}
+        </List>
+        <Divider sx={{ bgcolor: 'rgba(248, 250, 252, 0.12)' }} />
+        <Box sx={{ px: 2, py: 1 }}>
+          <Typography variant="subtitle2" sx={{ color: '#94a3b8', fontWeight: 600 }}>
+            Gerenciamento de Certificados
+          </Typography>
+        </Box>
+        <List>
+          {certificateManagementItems.map(renderNavItem)}
         </List>
       </Box>
     </>

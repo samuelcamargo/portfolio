@@ -14,6 +14,16 @@ const nextConfig = {
     if (dev) {
       config.cache = false;
     }
+    
+    // Resolver para problemas com date-fns e @mui/x-date-pickers
+    config.resolve = {
+      ...config.resolve,
+      alias: {
+        ...config.resolve.alias,
+        'date-fns': path.resolve(__dirname, 'node_modules/date-fns'),
+      },
+    };
+    
     return config;
   },
   async headers() {

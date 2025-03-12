@@ -254,7 +254,7 @@ export default function AboutPage() {
         sorted.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
         break;
     }
-    
+
     return sorted;
   }, [certFilter, searchTerm, certCategory, allCertificates]);
 
@@ -458,47 +458,47 @@ export default function AboutPage() {
           <Grid container spacing={2}>
             {Array.isArray(filteredSkillsToShow) && filteredSkillsToShow.length > 0 ? (
               filteredSkillsToShow.map((skill) => (
-                <Grid item xs={12} sm={6} md={4} key={skill.name}>
-                  <Paper
-                    elevation={0}
-                    sx={{
-                      p: 2.5,
-                      bgcolor: 'background.paper',
-                      borderRadius: 2,
-                      transition: 'all 0.3s ease',
-                      '&:hover': {
-                        transform: 'translateY(-2px)',
-                        boxShadow: `0 0 15px ${theme.palette.primary.main}15`,
-                      },
-                    }}
-                  >
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                      <Typography variant="h6">{skill.name}</Typography>
-                      <Chip
-                        label={skill.level}
-                        size="small"
-                        icon={<Star sx={{ fontSize: '1rem' }} />}
-                        sx={{
-                          bgcolor: skill.level === 'Avançado' ? 'primary.main' : 'secondary.main',
-                          color: 'white',
-                        }}
-                      />
-                    </Box>
-                    <Typography variant="caption" color="text.secondary">
-                      {skill.category}
-                    </Typography>
-                  </Paper>
-                </Grid>
+              <Grid item xs={12} sm={6} md={4} key={skill.name}>
+                <Paper
+                  elevation={0}
+                  sx={{
+                    p: 2.5,
+                    bgcolor: 'background.paper',
+                    borderRadius: 2,
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-2px)',
+                      boxShadow: `0 0 15px ${theme.palette.primary.main}15`,
+                    },
+                  }}
+                >
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                    <Typography variant="h6">{skill.name}</Typography>
+                    <Chip
+                      label={skill.level}
+                      size="small"
+                      icon={<Star sx={{ fontSize: '1rem' }} />}
+                      sx={{
+                        bgcolor: skill.level === 'Avançado' ? 'primary.main' : 'secondary.main',
+                        color: 'white',
+                      }}
+                    />
+                  </Box>
+                  <Typography variant="caption" color="text.secondary">
+                    {skill.category}
+                  </Typography>
+                </Paper>
+              </Grid>
               ))
             ) : (
               <Grid item xs={12}>
                 <Box sx={{ textAlign: 'center', py: 4 }}>
-                  <Typography color="text.secondary">
+            <Typography color="text.secondary">
                     Nenhuma habilidade encontrada
-                  </Typography>
-                </Box>
+            </Typography>
+          </Box>
               </Grid>
-            )}
+        )}
           </Grid>
         </Box>
 

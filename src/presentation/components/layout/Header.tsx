@@ -1,11 +1,33 @@
 'use client';
-import * as React from 'react';
-import { AppBar, Toolbar, Typography, Button, Box, IconButton, Drawer, List, ListItem, ListItemText, useTheme, useMediaQuery, ListItemIcon, Divider } from '@mui/material';
-import NextLink from 'next/link';
-import { styled } from '@mui/material/styles';
-import { Menu as MenuIcon, Home, Person, Code, Mail } from '@mui/icons-material';
 
-const StyledLink = styled(NextLink)`
+import React from 'react';
+import { 
+  AppBar, 
+  Toolbar, 
+  Box, 
+  IconButton, 
+  useMediaQuery, 
+  useTheme,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  Divider,
+  ListItemIcon,
+  Button,
+  styled
+} from '@mui/material';
+import { 
+  Menu as MenuIcon, 
+  Home,
+  Person,
+  Code,
+  Mail
+} from '@mui/icons-material';
+import Link from 'next/link';
+
+const StyledLink = styled(Link)`
   color: inherit;
   text-decoration: none;
 `;
@@ -59,7 +81,7 @@ export default function Header() {
       <Divider sx={{ mb: 2 }} />
       <List>
         {menuItems.map((item) => (
-          <NextLink key={item.href} href={item.href} passHref style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Link key={item.href} href={item.href} style={{ textDecoration: 'none', color: 'inherit' }}>
             <StyledListItem onClick={handleDrawerToggle} disablePadding>
               <Box
                 sx={{
@@ -82,7 +104,7 @@ export default function Header() {
                 />
               </Box>
             </StyledListItem>
-          </NextLink>
+          </Link>
         ))}
       </List>
     </Box>
@@ -156,7 +178,7 @@ export default function Header() {
               <Button
                 key={item.href}
                 color="inherit"
-                component={NextLink}
+                component={Link}
                 href={item.href}
                 sx={{
                   fontSize: '1rem',

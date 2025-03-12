@@ -72,6 +72,14 @@ const nextConfig = {
       }
     ]
   },
+  async rewrites() {
+    return [
+      {
+        source: '/dashboard/:path*',
+        destination: 'https://node-portfolio-samuel.onrender.com/dashboard/:path*'
+      }
+    ];
+  },
   poweredByHeader: false,
   compress: true,
   reactStrictMode: true,

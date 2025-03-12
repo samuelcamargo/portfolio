@@ -1,8 +1,8 @@
 'use client';
 import * as React from 'react';
 import { Box, Container } from '@mui/material';
-import Header from '@/presentation/components/layout/Header';
-import Footer from '@/presentation/components/layout/Footer';
+import Header from './Header';
+import Footer from './Footer';
 
 interface RootLayoutProps {
   children: React.ReactNode;

@@ -5,8 +5,9 @@ import RootLayoutWrapper from '../presentation/components/layout/RootLayoutWrapp
 import Analytics from '../presentation/components/Analytics';
 import Script from 'next/script';
 import { Suspense } from 'react';
-import ChatBotWrapper from '@/presentation/components/ChatBot/ChatBotWrapper';
-import ClientProviders from '@/presentation/components/layout/ClientProviders';
+import ChatBotWrapper from '../presentation/components/ChatBot/ChatBotWrapper';
+import ClientProviders from '../presentation/components/layout/ClientProviders';
+import ErrorHandler from '../presentation/components/layout/ErrorHandler';
 
 export const metadata: Metadata = {
   title: {
@@ -80,6 +81,7 @@ export default function RootLayoutMain({
       <body>
         <ThemeRegistry>
           <ClientProviders>
+            <ErrorHandler />
             <RootLayoutWrapper>
               {children}
             </RootLayoutWrapper>

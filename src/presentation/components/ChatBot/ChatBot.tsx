@@ -76,6 +76,10 @@ export default function ChatBot() {
     setIsOpen(true);
   };
 
+  const handleBalloonClick = () => {
+    setShowBalloon(false);
+  };
+
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
 
@@ -127,6 +131,7 @@ export default function ChatBot() {
       <Box sx={{ position: 'fixed', bottom: 20, right: 20, zIndex: 9999 }}>
         {showBalloon && (
           <Paper
+            onClick={handleBalloonClick}
             sx={{
               position: 'absolute',
               bottom: '100%',
@@ -141,6 +146,10 @@ export default function ChatBot() {
               animation: `${fadeInUp} 0.5s ease-out`,
               border: '1px solid',
               borderColor: 'primary.main',
+              cursor: 'pointer',
+              '&:hover': {
+                boxShadow: theme => theme.shadows[15],
+              },
               '&::after': {
                 content: '""',
                 position: 'absolute',

@@ -149,16 +149,222 @@ export default function AboutPage() {
   const [education, setEducation] = React.useState<{title: string, institution: string, period: string}[]>([]);
   const [allCertificates, setAllCertificates] = React.useState<Certificate[]>([]);
   
+  // Estados de loading para cada seção
+  const [loadingSkills, setLoadingSkills] = React.useState<boolean>(true);
+  const [loadingLanguages, setLoadingLanguages] = React.useState<boolean>(true);
+  const [loadingExperiences, setLoadingExperiences] = React.useState<boolean>(true);
+  const [loadingEducation, setLoadingEducation] = React.useState<boolean>(true);
+  const [loadingCertificates, setLoadingCertificates] = React.useState<boolean>(true);
+  
+  // Estados de erro para cada seção
+  const [errorSkills, setErrorSkills] = React.useState<string | null>(null);
+  const [errorLanguages, setErrorLanguages] = React.useState<string | null>(null);
+  const [errorExperiences, setErrorExperiences] = React.useState<string | null>(null);
+  const [errorEducation, setErrorEducation] = React.useState<string | null>(null);
+  const [errorCertificates, setErrorCertificates] = React.useState<string | null>(null);
+  
   const theme = useTheme();
   const [selectedCategory, setSelectedCategory] = React.useState<string>('all');
   const [certFilter, setCertFilter] = React.useState<'az' | 'za' | 'newest' | 'oldest'>('newest');
   const [searchTerm, setSearchTerm] = React.useState('');
   const [certCategory, setCertCategory] = React.useState<string>('all');
   
+  // Componentes de skeleton para diferentes seções
+  const SkillsSkeleton = () => (
+    <>
+      {[1, 2, 3, 4, 5, 6].map((item) => (
+        <Grid item xs={12} sm={6} md={4} key={item}>
+          <Paper
+            elevation={0}
+            sx={{
+              p: 2.5,
+              bgcolor: 'background.paper',
+              borderRadius: 2,
+              height: '90px',
+              position: 'relative',
+              overflow: 'hidden',
+              '&::after': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: `linear-gradient(90deg, ${theme.palette.background.paper} 0%, ${theme.palette.background.default} 50%, ${theme.palette.background.paper} 100%)`,
+                animation: 'shimmer 1.5s infinite',
+              },
+              '@keyframes shimmer': {
+                '0%': {
+                  transform: 'translateX(-100%)',
+                },
+                '100%': {
+                  transform: 'translateX(100%)',
+                },
+              },
+            }}
+          />
+        </Grid>
+      ))}
+    </>
+  );
+  
+  const TimelineSkeleton = () => (
+    <>
+      {[1, 2, 3].map((item) => (
+        <Box
+          key={item}
+          sx={{
+            display: 'flex',
+            position: 'relative',
+            pb: 8,
+            opacity: 0.7,
+          }}
+        >
+          <Box
+            sx={{
+              width: { xs: '30px', md: '40px' },
+              height: { xs: '30px', md: '40px' },
+              borderRadius: '50%',
+              bgcolor: theme.palette.background.default,
+              flexShrink: 0,
+            }}
+          />
+          <Box sx={{ ml: { xs: 2, md: 4 }, flex: 1 }}>
+            <Paper
+              elevation={0}
+              sx={{
+                p: { xs: 2, md: 3 },
+                bgcolor: 'background.paper',
+                borderRadius: 2,
+                height: '160px',
+                position: 'relative',
+                overflow: 'hidden',
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: `linear-gradient(90deg, ${theme.palette.background.paper} 0%, ${theme.palette.background.default} 50%, ${theme.palette.background.paper} 100%)`,
+                  animation: 'shimmer 1.5s infinite',
+                },
+                '@keyframes shimmer': {
+                  '0%': {
+                    transform: 'translateX(-100%)',
+                  },
+                  '100%': {
+                    transform: 'translateX(100%)',
+                  },
+                },
+              }}
+            />
+          </Box>
+        </Box>
+      ))}
+    </>
+  );
+  
+  const EducationSkeleton = () => (
+    <>
+      {[1, 2].map((item) => (
+        <Grid item xs={12} md={6} key={item}>
+          <Paper
+            elevation={0}
+            sx={{
+              p: 4,
+              height: '150px',
+              bgcolor: 'background.paper',
+              borderRadius: 2,
+              position: 'relative',
+              overflow: 'hidden',
+              '&::after': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: `linear-gradient(90deg, ${theme.palette.background.paper} 0%, ${theme.palette.background.default} 50%, ${theme.palette.background.paper} 100%)`,
+                animation: 'shimmer 1.5s infinite',
+              },
+            }}
+          />
+        </Grid>
+      ))}
+    </>
+  );
+  
+  const CertificatesSkeleton = () => (
+    <>
+      {[1, 2, 3, 4, 5, 6].map((item) => (
+        <Grid item xs={12} sm={6} md={4} key={item}>
+          <Paper
+            elevation={0}
+            sx={{
+              p: 3,
+              height: '160px',
+              bgcolor: 'background.paper',
+              borderRadius: 2,
+              position: 'relative',
+              overflow: 'hidden',
+              '&::after': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: `linear-gradient(90deg, ${theme.palette.background.paper} 0%, ${theme.palette.background.default} 50%, ${theme.palette.background.paper} 100%)`,
+                animation: 'shimmer 1.5s infinite',
+              },
+            }}
+          />
+        </Grid>
+      ))}
+    </>
+  );
+  
+  const LanguagesSkeleton = () => (
+    <>
+      {[1, 2, 3].map((item) => (
+        <Grid item xs={12} sm={4} key={item}>
+          <Paper
+            elevation={0}
+            sx={{
+              p: 4,
+              height: '100px',
+              textAlign: 'center',
+              bgcolor: 'background.paper',
+              borderRadius: 2,
+              position: 'relative',
+              overflow: 'hidden',
+              '&::after': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: `linear-gradient(90deg, ${theme.palette.background.paper} 0%, ${theme.palette.background.default} 50%, ${theme.palette.background.paper} 100%)`,
+                animation: 'shimmer 1.5s infinite',
+              },
+            }}
+          />
+        </Grid>
+      ))}
+    </>
+  );
+
   // Função para carregar dados de uma API com tratamento de erros
-  const fetchData = async <T,>(url: string, setter: React.Dispatch<React.SetStateAction<T>>, dataName: string) => {
+  const fetchData = async <T,>(
+    url: string, 
+    setter: React.Dispatch<React.SetStateAction<T>>, 
+    dataName: string,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setError: React.Dispatch<React.SetStateAction<string | null>>
+  ) => {
     try {
-      // Desativando regra de linting para console.log em ambiente de desenvolvimento
       // eslint-disable-next-line no-console
       console.log(`Iniciando carregamento de ${dataName}`);
       const response = await fetch(url);
@@ -172,9 +378,13 @@ export default function AboutPage() {
       console.log(`${dataName} carregados:`, results);
 
       setter(results);
+      setLoading(false);
+      setError(null);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(`Erro ao carregar ${dataName}:`, error);
+      setLoading(false);
+      setError(`Falha ao carregar ${dataName}. Tente novamente mais tarde.`);
     }
   };
 
@@ -186,23 +396,101 @@ export default function AboutPage() {
     if (!API_URL) {
       // eslint-disable-next-line no-console
       console.error('URL da API não configurada. Verifique a variável NEXT_PUBLIC_API_URL no arquivo .env.local');
+      
+      // Definir erros para todas as seções
+      const errorMessage = 'URL da API não configurada. Verifique suas configurações.';
+      setErrorSkills(errorMessage);
+      setErrorLanguages(errorMessage);
+      setErrorExperiences(errorMessage);
+      setErrorEducation(errorMessage);
+      setErrorCertificates(errorMessage);
+      
+      // Desativar loadings
+      setLoadingSkills(false);
+      setLoadingLanguages(false);
+      setLoadingExperiences(false);
+      setLoadingEducation(false);
+      setLoadingCertificates(false);
       return;
     }
     
-    // Carregar skills
-    fetchData(`${API_URL}/skills`, setSkills, "habilidades");
-    
-    // Carregar languages
-    fetchData(`${API_URL}/languages`, setLanguages, "idiomas");
-    
-    // Carregar experiences
-    fetchData(`${API_URL}/experiences`, setExperiences, "experiências");
-    
-    // Carregar education
-    fetchData(`${API_URL}/education`, setEducation, "formação acadêmica");
-    
-    // Carregar certificates
-    fetchData(`${API_URL}/certificates`, setAllCertificates, "certificados");
+    // Usar Promise.all para carregar todos os dados em paralelo
+    Promise.all([
+      fetch(`${API_URL}/skills`),
+      fetch(`${API_URL}/languages`),
+      fetch(`${API_URL}/experiences`),
+      fetch(`${API_URL}/education`),
+      fetch(`${API_URL}/certificates`)
+    ])
+    .then(responses => {
+      // Verifica se alguma resposta não está ok
+      const failedResponses = responses.filter(response => !response.ok);
+      if (failedResponses.length > 0) {
+        throw new Error(`${failedResponses.length} requisições falharam`);
+      }
+      
+      // Retorna todas as respostas convertidas para JSON
+      return Promise.all(responses.map(response => response.json()));
+    })
+    .then(data => {
+      // Define os dados para cada estado
+      setSkills(data[0]);
+      setLanguages(data[1]);
+      setExperiences(data[2]);
+      setEducation(data[3]);
+      setAllCertificates(data[4]);
+      
+      // Desativa os estados de loading
+      setLoadingSkills(false);
+      setLoadingLanguages(false);
+      setLoadingExperiences(false);
+      setLoadingEducation(false);
+      setLoadingCertificates(false);
+    })
+    .catch(error => {
+      console.error('Erro ao carregar dados:', error);
+      
+      // Para cada endpoint, realizar solicitações individuais para identificar quais falharam
+      fetchData<Skill[]>(
+        `${API_URL}/skills`, 
+        setSkills, 
+        "habilidades", 
+        setLoadingSkills, 
+        setErrorSkills
+      );
+      
+      fetchData<{name: string, level: string}[]>(
+        `${API_URL}/languages`, 
+        setLanguages, 
+        "idiomas", 
+        setLoadingLanguages, 
+        setErrorLanguages
+      );
+      
+      fetchData<Experience[]>(
+        `${API_URL}/experiences`, 
+        setExperiences, 
+        "experiências", 
+        setLoadingExperiences, 
+        setErrorExperiences
+      );
+      
+      fetchData<{title: string, institution: string, period: string}[]>(
+        `${API_URL}/education`, 
+        setEducation, 
+        "formação acadêmica", 
+        setLoadingEducation, 
+        setErrorEducation
+      );
+      
+      fetchData<Certificate[]>(
+        `${API_URL}/certificates`, 
+        setAllCertificates, 
+        "certificados", 
+        setLoadingCertificates, 
+        setErrorCertificates
+      );
+    });
   }, []);
 
   const categories = React.useMemo(() => {
@@ -456,7 +744,40 @@ export default function AboutPage() {
           </Box>
 
           <Grid container spacing={2}>
-            {Array.isArray(filteredSkillsToShow) && filteredSkillsToShow.length > 0 ? (
+            {loadingSkills ? (
+              <SkillsSkeleton />
+            ) : errorSkills ? (
+              <Grid item xs={12}>
+                <Box sx={{ 
+                  textAlign: 'center', 
+                  py: 4, 
+                  color: 'error.main',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 2
+                }}>
+                  <Typography>{errorSkills}</Typography>
+                  <Button 
+                    variant="outlined" 
+                    color="primary" 
+                    onClick={() => {
+                      setLoadingSkills(true);
+                      setErrorSkills(null);
+                      fetchData<Skill[]>(
+                        `${process.env.NEXT_PUBLIC_API_URL}/skills`, 
+                        setSkills, 
+                        "habilidades", 
+                        setLoadingSkills, 
+                        setErrorSkills
+                      );
+                    }}
+                  >
+                    Tentar novamente
+                  </Button>
+                </Box>
+              </Grid>
+            ) : Array.isArray(filteredSkillsToShow) && filteredSkillsToShow.length > 0 ? (
               filteredSkillsToShow.map((skill) => (
               <Grid item xs={12} sm={6} md={4} key={skill.name}>
                 <Paper
@@ -493,12 +814,12 @@ export default function AboutPage() {
             ) : (
               <Grid item xs={12}>
                 <Box sx={{ textAlign: 'center', py: 4 }}>
-            <Typography color="text.secondary">
+                  <Typography color="text.secondary">
                     Nenhuma habilidade encontrada
-            </Typography>
-          </Box>
+                  </Typography>
+                </Box>
               </Grid>
-        )}
+            )}
           </Grid>
         </Box>
 
@@ -520,14 +841,53 @@ export default function AboutPage() {
             <Work color="primary" sx={{ fontSize: '1.75rem' }} /> Experiência Profissional
           </Typography>
           <Box sx={{ px: { xs: 2, md: 4 } }}>
-            {experiencesToShow.map((exp, index) => (
-              <TimelineItem
-                key={index}
-                experience={exp}
-                index={index}
-                total={experiences.length}
-              />
-            ))}
+            {loadingExperiences ? (
+              <TimelineSkeleton />
+            ) : errorExperiences ? (
+              <Box sx={{ 
+                textAlign: 'center', 
+                py: 4, 
+                color: 'error.main',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 2
+              }}>
+                <Typography>{errorExperiences}</Typography>
+                <Button 
+                  variant="outlined" 
+                  color="primary" 
+                  onClick={() => {
+                    setLoadingExperiences(true);
+                    setErrorExperiences(null);
+                    fetchData<Experience[]>(
+                      `${process.env.NEXT_PUBLIC_API_URL}/experiences`, 
+                      setExperiences, 
+                      "experiências", 
+                      setLoadingExperiences, 
+                      setErrorExperiences
+                    );
+                  }}
+                >
+                  Tentar novamente
+                </Button>
+              </Box>
+            ) : experiencesToShow.length > 0 ? (
+              experiencesToShow.map((exp, index) => (
+                <TimelineItem
+                  key={index}
+                  experience={exp}
+                  index={index}
+                  total={experiences.length}
+                />
+              ))
+            ) : (
+              <Box sx={{ textAlign: 'center', py: 4 }}>
+                <Typography color="text.secondary">
+                  Nenhuma experiência encontrada
+                </Typography>
+              </Box>
+            )}
           </Box>
         </Box>
 
@@ -549,44 +909,87 @@ export default function AboutPage() {
             <School color="primary" sx={{ fontSize: '1.75rem' }} /> Formação Acadêmica
           </Typography>
           <Grid container spacing={3}>
-            {educationToShow.map((edu, index) => (
-              <Grid item xs={12} md={6} key={index}>
-                <Paper
-                  elevation={0}
-                  sx={{
-                    p: 4,
-                    height: '100%',
-                    bgcolor: 'background.paper',
-                    borderRadius: 2,
-                    transition: 'transform 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-5px)',
-                    },
-                    position: 'relative',
-                    overflow: 'hidden',
-                    '&::before': {
-                      content: '""',
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '4px',
-                      height: '100%',
-                      background: `linear-gradient(to bottom, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                    }
-                  }}
-                >
-                  <Typography variant="h5" gutterBottom color="primary" fontWeight="bold" sx={{ ml: 2 }}>
-                    {edu.title}
-                  </Typography>
-                  <Typography color="text.secondary" sx={{ ml: 2 }}>
-                    {edu.institution}
-                  </Typography>
-                  <Typography variant="subtitle2" color="text.secondary" sx={{ ml: 2 }}>
-                    {edu.period}
-                  </Typography>
-                </Paper>
+            {loadingEducation ? (
+              <EducationSkeleton />
+            ) : errorEducation ? (
+              <Grid item xs={12}>
+                <Box sx={{ 
+                  textAlign: 'center', 
+                  py: 4, 
+                  color: 'error.main',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 2
+                }}>
+                  <Typography>{errorEducation}</Typography>
+                  <Button 
+                    variant="outlined" 
+                    color="primary" 
+                    onClick={() => {
+                      setLoadingEducation(true);
+                      setErrorEducation(null);
+                      fetchData<{title: string, institution: string, period: string}[]>(
+                        `${process.env.NEXT_PUBLIC_API_URL}/education`, 
+                        setEducation, 
+                        "formação acadêmica", 
+                        setLoadingEducation, 
+                        setErrorEducation
+                      );
+                    }}
+                  >
+                    Tentar novamente
+                  </Button>
+                </Box>
               </Grid>
-            ))}
+            ) : educationToShow.length > 0 ? (
+              educationToShow.map((edu, index) => (
+                <Grid item xs={12} md={6} key={index}>
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      p: 4,
+                      height: '100%',
+                      bgcolor: 'background.paper',
+                      borderRadius: 2,
+                      transition: 'transform 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateY(-5px)',
+                      },
+                      position: 'relative',
+                      overflow: 'hidden',
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '4px',
+                        height: '100%',
+                        background: `linear-gradient(to bottom, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                      }
+                    }}
+                  >
+                    <Typography variant="h5" gutterBottom color="primary" fontWeight="bold" sx={{ ml: 2 }}>
+                      {edu.title}
+                    </Typography>
+                    <Typography color="text.secondary" sx={{ ml: 2 }}>
+                      {edu.institution}
+                    </Typography>
+                    <Typography variant="subtitle2" color="text.secondary" sx={{ ml: 2 }}>
+                      {edu.period}
+                    </Typography>
+                  </Paper>
+                </Grid>
+              ))
+            ) : (
+              <Grid item xs={12}>
+                <Box sx={{ textAlign: 'center', py: 4 }}>
+                  <Typography color="text.secondary">
+                    Nenhuma formação acadêmica encontrada
+                  </Typography>
+                </Box>
+              </Grid>
+            )}
           </Grid>
         </Box>
 
@@ -693,92 +1096,125 @@ export default function AboutPage() {
 
           {/* Grid de certificados */}
           <Grid container spacing={3}>
-            {certificatesToShow.map((cert: Certificate, index: number) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
-                <Paper
-                  elevation={0}
-                  sx={{
-                    p: 3,
-                    height: '100%',
-                    bgcolor: 'background.paper',
-                    borderRadius: 2,
-                    transition: 'all 0.3s ease',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    '&:hover': {
-                      transform: 'translateY(-3px)',
-                      boxShadow: `0 0 15px ${theme.palette.primary.main}15`,
-                    }
-                  }}
-                >
-                  <Box sx={{ mb: 2 }}>
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        color: 'text.secondary',
-                        display: 'block',
-                        mb: 1
-                      }}
-                    >
-                      Data de finalização: {new Date(cert.date).toLocaleDateString('pt-BR')}
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        fontSize: '1rem',
-                        fontWeight: 'bold',
-                        mb: 1,
-                        minHeight: 48,
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis'
-                      }}
-                    >
-                      {cert.name}
-                    </Typography>
-                  </Box>
-                  
-                  <Box sx={{ mt: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Chip
-                      label={cert.category}
-                      size="small"
-                      sx={{
-                        bgcolor: 'primary.main',
-                        color: 'white',
-                      }}
-                    />
-                    <IconButton
-                      component="a"
-                      href={cert.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      size="small"
-                      sx={{
-                        color: 'primary.main',
-                        '&:hover': {
-                          color: 'primary.dark',
-                        }
-                      }}
-                    >
-                      <LinkIcon />
-                    </IconButton>
-                  </Box>
-                </Paper>
+            {loadingCertificates ? (
+              <CertificatesSkeleton />
+            ) : errorCertificates ? (
+              <Grid item xs={12}>
+                <Box sx={{ 
+                  textAlign: 'center', 
+                  py: 4, 
+                  color: 'error.main',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 2
+                }}>
+                  <Typography>{errorCertificates}</Typography>
+                  <Button 
+                    variant="outlined" 
+                    color="primary" 
+                    onClick={() => {
+                      setLoadingCertificates(true);
+                      setErrorCertificates(null);
+                      fetchData<Certificate[]>(
+                        `${process.env.NEXT_PUBLIC_API_URL}/certificates`, 
+                        setAllCertificates, 
+                        "certificados", 
+                        setLoadingCertificates, 
+                        setErrorCertificates
+                      );
+                    }}
+                  >
+                    Tentar novamente
+                  </Button>
+                </Box>
               </Grid>
-            ))}
+            ) : certificatesToShow.length > 0 ? (
+              certificatesToShow.map((cert: Certificate, index: number) => (
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      p: 3,
+                      height: '100%',
+                      bgcolor: 'background.paper',
+                      borderRadius: 2,
+                      transition: 'all 0.3s ease',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      '&:hover': {
+                        transform: 'translateY(-3px)',
+                        boxShadow: `0 0 15px ${theme.palette.primary.main}15`,
+                      }
+                    }}
+                  >
+                    <Box sx={{ mb: 2 }}>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          color: 'text.secondary',
+                          display: 'block',
+                          mb: 1
+                        }}
+                      >
+                        Data de finalização: {new Date(cert.date).toLocaleDateString('pt-BR')}
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontSize: '1rem',
+                          fontWeight: 'bold',
+                          mb: 1,
+                          minHeight: 48,
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis'
+                        }}
+                      >
+                        {cert.name}
+                      </Typography>
+                    </Box>
+                    
+                    <Box sx={{ mt: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Chip
+                        label={cert.category}
+                        size="small"
+                        sx={{
+                          bgcolor: 'primary.main',
+                          color: 'white',
+                        }}
+                      />
+                      <IconButton
+                        component="a"
+                        href={cert.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        size="small"
+                        sx={{
+                          color: 'primary.main',
+                          '&:hover': {
+                            color: 'primary.dark',
+                          }
+                        }}
+                      >
+                        <LinkIcon />
+                      </IconButton>
+                    </Box>
+                  </Paper>
+                </Grid>
+              ))
+            ) : (
+              <Box sx={{ textAlign: 'center', py: 4, width: '100%' }}>
+                <Typography color="text.secondary">
+                  Nenhum certificado encontrado com os filtros atuais.
+                </Typography>
+              </Box>
+            )}
           </Grid>
-
-          {sortedCertificates.length === 0 && (
-            <Box sx={{ textAlign: 'center', py: 4 }}>
-              <Typography color="text.secondary">
-                Nenhum certificado encontrado com os filtros atuais.
-              </Typography>
-            </Box>
-          )}
         </Box>
 
         {/* Idiomas com Visual Moderno */}
@@ -799,41 +1235,84 @@ export default function AboutPage() {
             <Language color="primary" sx={{ fontSize: '1.75rem' }} /> Idiomas
           </Typography>
           <Grid container spacing={3} justifyContent="center">
-            {languages.map((lang, index) => (
-              <Grid item xs={12} sm={4} key={index}>
-                <Paper
-                  elevation={0}
-                  sx={{
-                    p: 4,
-                    textAlign: 'center',
-                    bgcolor: 'background.paper',
-                    borderRadius: 2,
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-5px)',
-                      boxShadow: `0 0 20px ${theme.palette.primary.main}20`,
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="h5"
-                    gutterBottom
-                    sx={{
-                      fontWeight: 'bold',
-                      background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                      backgroundClip: 'text',
-                      WebkitBackgroundClip: 'text',
-                      color: 'transparent',
+            {loadingLanguages ? (
+              <LanguagesSkeleton />
+            ) : errorLanguages ? (
+              <Grid item xs={12}>
+                <Box sx={{ 
+                  textAlign: 'center', 
+                  py: 4, 
+                  color: 'error.main',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 2
+                }}>
+                  <Typography>{errorLanguages}</Typography>
+                  <Button 
+                    variant="outlined" 
+                    color="primary" 
+                    onClick={() => {
+                      setLoadingLanguages(true);
+                      setErrorLanguages(null);
+                      fetchData<{name: string, level: string}[]>(
+                        `${process.env.NEXT_PUBLIC_API_URL}/languages`, 
+                        setLanguages, 
+                        "idiomas", 
+                        setLoadingLanguages, 
+                        setErrorLanguages
+                      );
                     }}
                   >
-                    {lang.name}
-                  </Typography>
-                  <Typography color="text.secondary" variant="subtitle1">
-                    {lang.level}
-                  </Typography>
-                </Paper>
+                    Tentar novamente
+                  </Button>
+                </Box>
               </Grid>
-            ))}
+            ) : languages.length > 0 ? (
+              languages.map((lang, index) => (
+                <Grid item xs={12} sm={4} key={index}>
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      p: 4,
+                      textAlign: 'center',
+                      bgcolor: 'background.paper',
+                      borderRadius: 2,
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateY(-5px)',
+                        boxShadow: `0 0 20px ${theme.palette.primary.main}20`,
+                      },
+                    }}
+                  >
+                    <Typography
+                      variant="h5"
+                      gutterBottom
+                      sx={{
+                        fontWeight: 'bold',
+                        background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                        backgroundClip: 'text',
+                        WebkitBackgroundClip: 'text',
+                        color: 'transparent',
+                      }}
+                    >
+                      {lang.name}
+                    </Typography>
+                    <Typography color="text.secondary" variant="subtitle1">
+                      {lang.level}
+                    </Typography>
+                  </Paper>
+                </Grid>
+              ))
+            ) : (
+              <Grid item xs={12}>
+                <Box sx={{ textAlign: 'center', py: 4 }}>
+                  <Typography color="text.secondary">
+                    Nenhum idioma encontrado
+                  </Typography>
+                </Box>
+              </Grid>
+            )}
           </Grid>
         </Box>
       </Box>
